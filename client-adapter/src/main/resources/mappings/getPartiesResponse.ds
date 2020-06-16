@@ -1,0 +1,9 @@
+{
+  type: "CONSUMER",
+  idType: header.idType,
+  idValue: header.idValue
+}
++ if (std.objectHas(payload, "firstName")) then { firstName: payload.firstName }
++ if (std.objectHas(payload, "lastName")) then { lastName: payload.lastName }
++ if (std.objectHas(payload, "birthDate")) then { dateOfBirth: payload.birthDate }
+  else {}

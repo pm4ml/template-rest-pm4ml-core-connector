@@ -1,0 +1,276 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:sch="http://www.temenos.com/t24" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://www.temenos.com/t24" targetNamespace="http://www.temenos.com/t24">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			elementFormDefault="qualified" targetNamespace="http://www.temenos.com/t24">
+			<xs:element name="AccountLookupRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="WebRequestCommon" type="tns:WebRequestCommon" />
+						<xs:element name="ACCTVIEWType" type="tns:ACCTVIEWType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AccountLookupResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Status" type="tns:Status" />
+						<xs:element name="ACCTVIEWType" type="tns:ACCTVIEWType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CalculateFeesRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="WebRequestCommon" type="tns:WebRequestCommon" />
+						<xs:element name="FTCOMMType" type="tns:FTCOMMType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CalculateFeesResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Status" type="tns:Status" />
+						<xs:element name="FTCOMMType" type="tns:FTCOMMType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TransferMoneyRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="WebRequestCommon" type="tns:WebRequestCommon" />
+						<xs:element name="OfsFunction" type="tns:OfsFunction" />
+						<xs:element name="FUNDSTRANSFERKIFFIYAPAYType" type="tns:FUNDSTRANSFERKIFFIYAPAYType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TransferMoneyResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Status" type="tns:Status" />
+						<xs:element name="FUNDSTRANSFERType" type="tns:FUNDSTRANSFERType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:complexType name="WebRequestCommon">
+				<xs:sequence>
+					<xs:element name="company" type="xs:string" />
+					<xs:element name="password" type="xs:string" />
+					<xs:element name="userName" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="ACCTVIEWType">
+				<xs:sequence>
+					<xs:element name="enquiryInputCollection" type="tns:enquiryInputCollection" />
+					<xs:element name="gACCTVIEWDetailType" type="tns:gACCTVIEWDetailType" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="FTCOMMType">
+				<xs:sequence>
+					<xs:element name="enquiryInputCollection" type="tns:enquiryInputCollection" />
+					<xs:element name="gFTCOMMDetailType" type="tns:gFTCOMMDetailType" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="enquiryInputCollection">
+				<xs:sequence>
+					<xs:element name="columnName" type="xs:string" />
+					<xs:element name="criteriaValue" type="xs:string" />
+					<xs:element name="operand" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="Status">
+				<xs:sequence>
+					<xs:element name="transactionId" type="xs:string" />
+					<xs:element name="messageId" type="xs:string" />
+					<xs:element name="successIndicator" type="xs:string" />
+					<xs:element name="application" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="gACCTVIEWDetailType">
+				<xs:sequence>
+					<xs:element name="mACCTVIEWDetailType" type="tns:mACCTVIEWDetailType" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="mACCTVIEWDetailType">
+				<xs:sequence>
+					<xs:element name="ACCOUNTTITLE1" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="gFTCOMMDetailType">
+				<xs:sequence>
+					<xs:element name="mFTCOMMDetailType" type="tns:mFTCOMMDetailType" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="mFTCOMMDetailType">
+				<xs:sequence>
+					<xs:element name="CHARGECODE" type="xs:string" />
+					<xs:element name="DESCRIPTION" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="OfsFunction">
+				<xs:sequence>
+					<xs:element name="activityName" type="xs:string" />
+					<xs:element name="assignReason" type="xs:string" />
+					<xs:element name="dueDate" type="xs:string" />
+					<xs:element name="extProcess" type="xs:string" />
+					<xs:element name="extProcessID" type="xs:string" />
+					<xs:element name="gtsControl" type="xs:string" />
+					<xs:element name="messageId" type="xs:string" />
+					<xs:element name="noOfAuth" type="xs:string" />
+					<xs:element name="owner" type="xs:string" />
+					<xs:element name="replace" type="xs:string" />
+					<xs:element name="startDate" type="xs:string" />
+					<xs:element name="user" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="FUNDSTRANSFERKIFFIYAPAYType">
+				<xs:sequence>
+					<xs:element name="DebitAccount" type="xs:string" />
+					<xs:element name="DebitCurrency" type="xs:string" />
+					<xs:element name="DebitAmount" type="xs:string" />
+					<xs:element name="DebitValueDate" type="xs:string" />
+					<xs:element name="DebitNarrative" type="xs:string" />
+					<xs:element name="CreditNarrative" type="xs:string" />
+					<xs:element name="CreditAccount" type="xs:string" />
+					<xs:element name="CreditCurrency" type="xs:string" />
+					<xs:element name="CreditAmount" type="xs:string" />
+					<xs:element name="CreditValueDate" type="xs:string" />
+					<xs:element name="TreasuryRate" type="xs:string" />
+					<xs:element name="CustomerSpread" type="xs:string" />
+					<xs:element name="AmountDebited" type="xs:string" />
+					<xs:element name="AmountCredited" type="xs:string" />
+					<xs:element name="CustomerRate" type="xs:string" />
+					<xs:element name="RoundingType" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="FUNDSTRANSFERType">
+				<xs:sequence>
+					<xs:element name="TRANSACTIONTYPE" type="xs:string" />
+					<xs:element name="DEBITACCTNO" type="xs:string" />
+					<xs:element name="CURRENCYMKTDR" type="xs:string" />
+					<xs:element name="DEBITCURRENCY" type="xs:string" />
+					<xs:element name="DEBITVALUEDATE" type="xs:string" />
+					<xs:element name="CREDITACCTNO" type="xs:string" />
+					<xs:element name="CURRENCYMKTCR" type="xs:string" />
+					<xs:element name="CREDITCURRENCY" type="xs:string" />
+					<xs:element name="CREDITAMOUNT" type="xs:string" />
+					<xs:element name="CREDITVALUEDATE" type="xs:string" />
+					<xs:element name="PROCESSINGDATE" type="xs:string" />
+					<xs:element name="CHARGECOMDISPLAY" type="xs:string" />
+					<xs:element name="COMMISSIONCODE" type="xs:string" />
+					<xs:element name="CHARGECODE" type="xs:string" />
+					<xs:element name="PROFITCENTRECUST" type="xs:string" />
+					<xs:element name="RETURNTODEPT" type="xs:string" />
+					<xs:element name="FEDFUNDS" type="xs:string" />
+					<xs:element name="POSITIONTYPE" type="xs:string" />
+					<xs:element name="AMOUNTDEBITED" type="xs:string" />
+					<xs:element name="AMOUNTCREDITED" type="xs:string" />
+					<xs:element name="CREDITCOMPCODE" type="xs:string" />
+					<xs:element name="DEBITCOMPCODE" type="xs:string" />
+					<xs:element name="LOCAMTDEBITED" type="xs:string" />
+					<xs:element name="LOCAMTCREDITED" type="xs:string" />
+					<xs:element name="CUSTGROUPLEVEL" type="xs:string" />
+					<xs:element name="DEBITCUSTOMER" type="xs:string" />
+					<xs:element name="CREDITCUSTOMER" type="xs:string" />
+					<xs:element name="DRADVICEREQDYN" type="xs:string" />
+					<xs:element name="CRADVICEREQDYN" type="xs:string" />
+					<xs:element name="CHARGEDCUSTOMER" type="xs:string" />
+					<xs:element name="TOTRECCOMM" type="xs:string" />
+					<xs:element name="TOTRECCOMMLCL" type="xs:string" />
+					<xs:element name="TOTRECCHG" type="xs:string" />
+					<xs:element name="TOTRECCHGLCL" type="xs:string" />
+					<xs:element name="RATEFIXING" type="xs:string" />
+					<xs:element name="TOTRECCHGCRCCY" type="xs:string" />
+					<xs:element name="TOTSNDCHGCRCCY" type="xs:string" />
+					<xs:element name="AUTHDATE" type="xs:string" />
+					<xs:element name="ROUNDTYPE" type="xs:string" />
+					<xs:element name="CURRNO" type="xs:string" />
+					<xs:element name="AUTHORISER" type="xs:string" />
+					<xs:element name="COCODE" type="xs:string" />
+					<xs:element name="DEPTCODE" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="CalculateFeesResponse">
+		<wsdl:part element="tns:CalculateFeesResponse" name="CalculateFeesResponse">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="CalculateFeesRequest">
+		<wsdl:part element="tns:CalculateFeesRequest" name="CalculateFeesRequest">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="AccountLookupResponse">
+		<wsdl:part element="tns:AccountLookupResponse" name="AccountLookupResponse">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="TransferMoneyRequest">
+		<wsdl:part element="tns:TransferMoneyRequest" name="TransferMoneyRequest">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="TransferMoneyResponse">
+		<wsdl:part element="tns:TransferMoneyResponse" name="TransferMoneyResponse">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="AccountLookupRequest">
+		<wsdl:part element="tns:AccountLookupRequest" name="AccountLookupRequest">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="MockPort">
+		<wsdl:operation name="CalculateFees">
+			<wsdl:input message="tns:CalculateFeesRequest" name="CalculateFeesRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:CalculateFeesResponse" name="CalculateFeesResponse">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AccountLookup">
+			<wsdl:input message="tns:AccountLookupRequest" name="AccountLookupRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:AccountLookupResponse" name="AccountLookupResponse">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="TransferMoney">
+			<wsdl:input message="tns:TransferMoneyRequest" name="TransferMoneyRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:TransferMoneyResponse" name="TransferMoneyResponse">
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="MockPortSoap11" type="tns:MockPort">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="CalculateFees">
+			<soap:operation soapAction="" />
+			<wsdl:input name="CalculateFeesRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="CalculateFeesResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AccountLookup">
+			<soap:operation soapAction="" />
+			<wsdl:input name="AccountLookupRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="AccountLookupResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="TransferMoney">
+			<soap:operation soapAction="" />
+			<wsdl:input name="TransferMoneyRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="TransferMoneyResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="MockPortService">
+		<wsdl:port binding="tns:MockPortSoap11" name="MockPortSoap11">
+			<soap:address location="http://localhost:8080/service" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,23 @@
+{
+  "encodedKey": "8a8e862a729d206f01729eb192e0034e",
+  "state": "INACTIVE",
+  "id": "886978510",
+  "creationDate": "2020-06-10T14:52:03+0000",
+  "lastModifiedDate": "2020-06-11T08:56:48+0000",
+  "approvedDate": "2020-06-10T14:52:03+0000",
+  "firstName": "U",
+  "lastName": "Aye Chan",
+  "profilePictureKey": "8a8e862e72a0e5ff0172a163d4f20158",
+  "profileSignatureKey": "8a8e862e72a0e5ff0172a168a3550169",
+  "mobilePhone1": "09970986850",
+  "birthDate": "1995-05-26T00:00:00+0000",
+  "gender": "MALE",
+  "assignedUserKey": "8a8e86457236162801723679615300ba",
+  "assignedBranchKey": "8a818eab64f5f0c00164fb09c67f6b39",
+  "loanCycle": 0,
+  "groupLoanCycle": 0,
+  "preferredLanguage": "ENGLISH",
+  "clientRole": {
+    "encodedKey": "8a818e695668e43d01566a0b6aee0e51"
+  }
+}

@@ -1,0 +1,24 @@
+spring:
+  profiles:
+    active: local
+
+server:
+  api:
+    listen:
+      host: 0.0.0.0
+      port: 3000
+camel:
+  component: jetty
+
+  springboot:
+    main-run-controller: true
+    name: TestAPI
+    stream-caching-enabled: true
+
+t24:
+  soap:
+    url: http://localhost:8080/service/mock.wsdl
+  wsdl:
+    location: wsdl/mockT24.wsdl
+  serviceClass: com.temenos.t24.MockPort
+  nameSpace: http://www.temenos.com/t24

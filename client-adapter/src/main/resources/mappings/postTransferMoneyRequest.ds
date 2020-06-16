@@ -1,0 +1,17 @@
+/** DataSonnet
+version=1.0
+output.application/java.OutputClass=com.temenos.t24.TransferMoneyRequest
+*/
+local commonRequest = import 'mappings/commonRequest.libsonnet';
+local request = payload;
+
+{
+  webRequestCommon: commonRequest.getCommonRequest(),
+  fundstransferkiffiyapaytype: 
+  {
+	debitAccount: request.from.idValue,
+	creditAccount: request.to.idValue,
+	creditCurrency: request.currency,
+	creditAmount: request.amount
+  }
+}

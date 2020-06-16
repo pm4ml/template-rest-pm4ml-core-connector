@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.5.RELEASE</version>
+    </parent>
+
+    <groupId>com.modusbox</groupId>
+    <artifactId>mambu-client-adapter</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <compiler.source.version>1.8</compiler.source.version>
+        <compiler.target.version>1.8</compiler.target.version>
+
+        <camel.version>3.1.0</camel.version>
+        <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
+
+        <maven.build-helper.version>3.0.0</maven.build-helper.version>
+        <maven.compiler.version>3.8.0</maven.compiler.version>
+        <openapi-generator.version>4.3.0</openapi-generator.version>
+        <hibernate.version>5.3.5.Final</hibernate.version>
+        <jackson.version>2.10.3</jackson.version>
+        <cxf.version>3.3.6</cxf.version>
+        <cucumber.version>2.4.0</cucumber.version>
+    </properties>
+
+    <modules>
+        <module>client-adapter</module>
+        <module>client-adapter-interface</module>
+        <!--        <module>client-adapter-soap-mock</module>-->
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- INTERNAL PROJECT DEPENDENCIES -->
+            <dependency>
+                <groupId>com.modusbox</groupId>
+                <artifactId>client-adapter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.modusbox</groupId>
+                <artifactId>client-adapter-interface</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-core</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-spring</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-http</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-servlet-starter</artifactId>
+                <version>3.0.0-RC3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-rest</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-servlet</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-bean-validator</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-rs-service-description</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+
+
+            <!-- logging -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>2.13.0</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>2.13.0</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.camel.springboot</groupId>
+                <artifactId>camel-servlet-starter</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+
+            <!-- CUCUMBER TESTING -->
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-java</artifactId>
+                <version>${cucumber.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-junit</artifactId>
+                <version>${cucumber.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>${maven.build-helper.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-codegen-plugin</artifactId>
+                    <version>${camel.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-xjc-plugin</artifactId>
+                    <version>${camel.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.version}</version>
+                    <configuration>
+                        <source>${compiler.source.version}</source>
+                        <target>${compiler.target.version}</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+<!--                    <configuration>-->
+<!--                        &lt;!&ndash; Use the ZIP layout as that makes use of the PropertiesLauncher which enables simpler &ndash;&gt;-->
+<!--                        &lt;!&ndash;  setup for externalized configuration (e.g. LOADER_PATH env var support).            &ndash;&gt;-->
+<!--                        <layout>ZIP</layout>-->
+
+<!--                        <mainClass>${start-class}</mainClass>-->
+<!--                    </configuration>-->
+<!--                    <executions>-->
+<!--                        <execution>-->
+<!--                            &lt;!&ndash; Use same ID as spring-boot-starter-parent pom for easy switching of project &ndash;&gt;-->
+<!--                            &lt;!&ndash;  between that parent and this one.                                          &ndash;&gt;-->
+<!--                            <id>repackage</id>-->
+<!--                            <goals>-->
+<!--                                <goal>repackage</goal>-->
+<!--                            </goals>-->
+<!--                        </execution>-->
+<!--                    </executions>-->
+                </plugin>
+
+                <plugin>
+                    <groupId>org.openapitools</groupId>
+                    <artifactId>openapi-generator-maven-plugin</artifactId>
+                    <version>${openapi-generator.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+
+                    <!-- BASE configuration that should meet most of the use-cases. -->
+                    <!-- Need to add <inputSpec>, <apiPackge>, and <modelPackage>   -->
+                    <configuration>
+                        <generatorName>jaxrs-spec</generatorName>
+                        <output>${project.build.directory}/generated-sources</output>
+                        <strictSpec>false</strictSpec>
+                        <configOptions>
+                            <interfaceOnly>true</interfaceOnly>
+                            <returnResponse>false</returnResponse>
+                            <generatePom>false</generatePom>
+                            <useSwaggerAnnotations>false</useSwaggerAnnotations>
+                        </configOptions>
+                        <generateModelTests>false</generateModelTests>
+                        <generateApiTests>false</generateApiTests>
+                    </configuration>
+                </plugin>
+<!--                <plugin>-->
+<!--                    <groupId>org.apache.maven.plugins</groupId>-->
+<!--                    <artifactId>maven-failsafe-plugin</artifactId>-->
+<!--                    <version>3.0.0-M3</version>-->
+<!--                </plugin>-->
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>docker-it</id>
+            <modules>
+                <module>client-adapter-it</module>
+            </modules>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+
+</project>

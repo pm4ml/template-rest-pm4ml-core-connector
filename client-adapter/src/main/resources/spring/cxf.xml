@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camelcxf="http://camel.apache.org/schema/cxf"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://cxf.apache.org/core
+        http://cxf.apache.org/schemas/core.xsd
+        http://camel.apache.org/schema/cxf
+        http://camel.apache.org/schema/cxf/camel-cxf-2.12.0-spring.xsd
+        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+        ">
+
+    <cxf:bus id="cxf-bus">
+        <cxf:features>
+            <cxf:logging/>
+        </cxf:features>
+    </cxf:bus>
+
+    <bean id="clientAdapterAPI" class="com.modusbox.client.router.ClientAdapterAPI" />
+    <bean id="partiesRouter" class="com.modusbox.client.router.PartiesRouter" />
+    <bean id="quotesRouter" class="com.modusbox.client.router.QuotesRouter" />
+    <bean id="transfersRouter" class="com.modusbox.client.router.TransfersRouter" />
+
+    <camel:camelContext>
+<!--        <camel:package>com.modusbox.client.router</camel:package>-->
+        <camel:routeBuilder ref="clientAdapterAPI"/>
+        <camel:routeBuilder ref="partiesRouter"/>
+        <camel:routeBuilder ref="quotesRouter"/>
+        <camel:routeBuilder ref="transfersRouter"/>
+    </camel:camelContext>
+
+    <bean id="jacksonJsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+
+    <camelcxf:rsServer
+            id="api-rs-server"
+            address="http://${server.api.listen.host}:${server.api.listen.port}/"
+    >
+        <camelcxf:serviceBeans>
+            <bean class="com.modusbox.client.jaxrs.PartiesApiImpl"/>
+            <bean class="com.modusbox.client.jaxrs.QuotesApiImpl"/>
+            <bean class="com.modusbox.client.jaxrs.TransfersApiImpl"/>
+        </camelcxf:serviceBeans>
+        <camelcxf:providers>
+            <ref bean="jacksonJsonProvider"/>
+        </camelcxf:providers>
+    </camelcxf:rsServer>
+
+</beans>

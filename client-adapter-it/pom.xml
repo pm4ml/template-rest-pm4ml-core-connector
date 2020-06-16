@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.modusbox</groupId>
+        <artifactId>mambu-client-adapter</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>client-adapter-it</artifactId>
+
+    <name>Client Adapter :: Build Time Integration Tests</name>
+
+    <description>
+        Executes build-time integration tests.
+
+        Plugins:
+            io.fabric8:docker-maven-plugin
+                - Starts the cluster
+                    - Starts the application in a container
+                    - Starts all dependencies (downstream http, db, etc) in their own containers
+                - Networks the cluster
+                    - Containers can directly access each other using aliases and normal port numbers
+                    - No port conflicts with the host, or other docker networks
+                        - For example, the application can use port 8080 even if the host system is already using port 8080
+                - Maps internal ports to dynamically-allocated external ports
+                    - Advertises the external port numbers via build-time maven properties
+
+            org.apache.maven.plugins:maven-failsafe-plugin
+                - Executes cucumber tests from the host
+                - Properties injected to provide test code with mapping to cluster network ports
+    </description>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- LOGGING RUNTIME - for testing -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20190722</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- SET the m2.project.path variable -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>convert-groupid-to-path</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>m2.project.path</name>
+                            <value>${project.groupId}</value>
+                            <regex>\.</regex>
+                            <replacement>/</replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.26.0</version>
+                <configuration>
+                    <showLogs>true</showLogs>
+                    <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
+
+                    <images>
+                        <image>
+                            <name>client-adapter-image</name>
+                            <alias>application</alias>
+
+                            <build>
+                                <from>openjdk:8</from>
+                                <assembly>
+                                    <targetDir>/app</targetDir>
+
+                                    <inline>
+                                        <files>
+                                            <file>
+                                                <!--suppress UnresolvedMavenProperty -->
+                                                <source>
+                                                    ${user.home}/.m2/repository/${m2.project.path}/client-adapter/${project.version}/client-adapter-${project.version}.jar
+                                                </source>
+                                                <outputDirectory/>
+                                            </file>
+                                        </files>
+                                    </inline>
+                                </assembly>
+                               <entryPoint>
+                                    <exec>
+                                        <arg>java</arg>
+                                        <arg>-jar</arg>
+                                        <arg>
+                                            /app/client-adapter-${project.version}.jar
+                                        </arg>
+                                    </exec>
+                                </entryPoint>
+                            </build>
+                            <run>
+                                <ports>
+                                    <port>application-host-port:3000</port>
+                                </ports>
+                                <network>
+                                    <mode>custom</mode>
+                                    <name>client-adapter.nw01</name>
+                                </network>
+                                <wait>
+<!--                                    <log>Started Application in .* seconds</log>-->
+                                    <time>30000</time>
+                                </wait>
+                            </run>
+                        </image>
+                    </images>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>pre-integration-test</phase>
+                        <id>start-integration-cluster</id>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <phase>post-integration-test</phase>
+                        <id>shutdown-integration-cluster</id>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                        <configuration>
+                            <systemProperties>
+                                <property>
+                                    <name>application-base-url</name>
+                                    <!--suppress MavenModelInspection -->
+                                    <value>http://localhost:${application-host-port}</value>
+                                </property>
+                            </systemProperties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

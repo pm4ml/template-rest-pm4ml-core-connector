@@ -1,0 +1,8 @@
+local origPayload = payload;
+{
+  quoteId: origPayload.quoteId,
+  transactionId: origPayload.transactionId,
+  transferAmount: origPayload.amount,
+  transferAmountCurrency: origPayload.currency
+
+} 

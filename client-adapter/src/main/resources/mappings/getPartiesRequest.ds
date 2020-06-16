@@ -1,0 +1,18 @@
+/** DataSonnet
+version=1.0
+output.application/java.OutputClass=com.temenos.t24.AccountLookupRequest
+*/
+local commonRequest = import 'mappings/commonRequest.libsonnet';
+
+{
+  webRequestCommon: commonRequest.getCommonRequest(),
+  acctviewtype: 
+  {
+  	enquiryInputCollection:
+  	{
+  		columnName: "ACCOUNT.NO",
+  		criteriaValue: headers.idValue,
+  		operand: "EQ"
+  	}
+  }
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+<!--    <camel:camelContext id="camelContext">-->
+<!--        <camel:package>com.modusbox.client.router</camel:package>-->
+<!--    </camel:camelContext>-->
+
+    <bean id="getPartiesRequest" class="com.modus.camel.datasonnet.DatasonnetProcessor" init-method="init">
+        <property name="inputMimeType" value="application/json"/>
+        <property name="outputMimeType" value="application/java"/>
+        <property name="datasonnetFile" value="mappings/getPartiesRequest.ds"/>
+    </bean>
+
+    <bean id="getPartiesResponse" class="com.modus.camel.datasonnet.DatasonnetProcessor" init-method="init">
+        <property name="inputMimeType" value="application/json"/>
+        <property name="outputMimeType" value="application/json"/>
+        <property name="datasonnetFile" value="mappings/getPartiesResponse.ds"/>
+    </bean>
+
+    <bean id="postQuoterequestsRequest" class="com.modus.camel.datasonnet.DatasonnetProcessor" init-method="init">
+        <property name="inputMimeType" value="application/json"/>
+        <property name="outputMimeType" value="application/java"/>
+        <property name="datasonnetFile" value="mappings/postQuoterequestsRequest.ds"/>
+    </bean>
+
+    <bean id="postQuoterequestsResponse" class="com.modus.camel.datasonnet.DatasonnetProcessor" init-method="init">
+        <property name="inputMimeType" value="application/json"/>
+        <property name="outputMimeType" value="application/json"/>
+        <property name="datasonnetFile" value="mappings/postQuoterequestsResponse.ds"/>
+    </bean>
+
+    <bean id="postTransferMoneyRequest" class="com.modus.camel.datasonnet.DatasonnetProcessor" init-method="init">
+        <property name="inputMimeType" value="application/json"/>
+        <property name="outputMimeType" value="application/java"/>
+        <property name="datasonnetFile" value="mappings/postTransferMoneyRequest.ds"/>
+    </bean>
+
+    <bean id="postTransfersResponse" class="com.modus.camel.datasonnet.DatasonnetProcessor" init-method="init">
+        <property name="inputMimeType" value="application/json"/>
+        <property name="outputMimeType" value="application/json"/>
+        <property name="datasonnetFile" value="mappings/postTransfersResponse.ds"/>
+    </bean>
+</beans>
