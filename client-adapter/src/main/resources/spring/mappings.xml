@@ -35,10 +35,10 @@
         <property name="datasonnetFile" value="mappings/postQuoterequestsResponse.ds"/>
     </bean>
 
-    <bean id="postTransferMoneyRequest" class="com.modus.camel.datasonnet.DatasonnetProcessor" init-method="init">
+    <bean id="postTransfersRequest" class="com.modus.camel.datasonnet.DatasonnetProcessor" init-method="init">
         <property name="inputMimeType" value="application/json"/>
-        <property name="outputMimeType" value="application/java"/>
-        <property name="datasonnetFile" value="mappings/postTransferMoneyRequest.ds"/>
+        <property name="outputMimeType" value="application/json"/>
+        <property name="datasonnetFile" value="mappings/postTransfersRequest.ds"/>
     </bean>
 
     <bean id="postTransfersResponse" class="com.modus.camel.datasonnet.DatasonnetProcessor" init-method="init">
@@ -46,4 +46,10 @@
         <property name="outputMimeType" value="application/json"/>
         <property name="datasonnetFile" value="mappings/postTransfersResponse.ds"/>
     </bean>
+
+<!--    <bean id="getClientByIdResponse" class="com.modus.camel.datasonnet.DatasonnetProcessor" init-method="init">-->
+<!--        <property name="inputMimeType" value="application/json"/>-->
+<!--        <property name="outputMimeType" value="application/json"/>-->
+<!--        <property name="datasonnetFile" value="mappings/getClientByIdResponse.ds"/>-->
+<!--    </bean>-->
 </beans>

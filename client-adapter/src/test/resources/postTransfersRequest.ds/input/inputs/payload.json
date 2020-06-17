@@ -1,0 +1,18 @@
+{
+  "from": {
+    "displayName": "PayerFirst PayerLast",
+    "idType": "ALIAS",
+    "idValue": "{{payerfspALIAS}}"
+  },
+  "to": {
+    "idType": "ALIAS",
+    "idValue": "{{payeefspALIAS}}"
+  },
+  "amountType": "SEND",
+  "currency": "{{currency}}",
+  "amount": "10",
+  "transactionType": "TRANSFER",
+  "initiatorType": "CONSUMER",
+  "note": "test payment",
+  "homeTransactionId": "{{$guid}}"
+}

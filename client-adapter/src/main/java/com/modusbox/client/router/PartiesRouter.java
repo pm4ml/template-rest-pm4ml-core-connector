@@ -16,8 +16,9 @@ public class PartiesRouter extends RouteBuilder {
 
     public void configure() {
 
+    	// In this case the GET parties will return the loan account
         from("direct:getParties")
-	        .log("Get Parties API called")
+	        .log("Account lookup API called (loan account)")
 			.log("GET on /${header.idType}/${header.idValue} called")
 //	        .setProperty("inboundIdType", header("idType"))
 //	        .setProperty("inboundIdValue", header("idValue"))
@@ -30,7 +31,7 @@ public class PartiesRouter extends RouteBuilder {
 			.setHeader("Accept", constant("application/json"))
 			.setHeader(Exchange.HTTP_METHOD, constant("GET"))
 			.setHeader("Authorization", constant(authorizationHeader))
-			.toD(host + "/clients/${header.idValue}")
+			.toD(host + "/loans/${header.idValue}")
 			// Using Camel authentication query parameters
 //			.toD(host + "/clients/${header.accountId}" +
 //				"?authMethod=Basic&authUsername=" + username + "&authPassword=" + password); //.to() doesn't work here
@@ -46,7 +47,38 @@ public class PartiesRouter extends RouteBuilder {
 				}
 			})
 	        .bean("getPartiesResponse")
-	        ;
+		;
 
-    }
+
+		// API call to Mambu for client information by ID
+		from("direct:getClientById")
+			.log("Get Client by ID route called")
+			.setBody(simple("{}"))
+
+			.removeHeaders("CamelHttp*")
+			.setHeader("Content-Type", constant("application/json"))
+			.setHeader("Accept", constant("application/json"))
+			.setHeader(Exchange.HTTP_METHOD, constant("GET"))
+			.setHeader("Authorization", constant(authorizationHeader))
+			.toD(host + "/clients/${header.idValue}")
+
+//			.bean("getClientByIdResponse")
+		;
+
+
+		// API call to Mambu for fetching all loans for a client ID
+		from("direct:getLoansForClient")
+			.log("Get Loans for a client ID route called")
+			.setBody(simple("{}"))
+
+			.removeHeaders("CamelHttp*")
+			.setHeader("Content-Type", constant("application/json"))
+			.setHeader("Accept", constant("application/json"))
+			.setHeader(Exchange.HTTP_METHOD, constant("GET"))
+			.setHeader("Authorization", constant(authorizationHeader))
+			.toD(host + "/clients/${header.idValue}/loans")
+
+//			.bean("getLoansForClientResponse")
+		;
+	}
 }

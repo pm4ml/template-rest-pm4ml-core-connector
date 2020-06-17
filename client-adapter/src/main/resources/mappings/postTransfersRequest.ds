@@ -1,0 +1,6 @@
+{
+  "amount": payload.amount
+}
++ if (std.objectHas(payload, "homeTransactionId")) then { externalId: payload.homeTransactionId }
++ if (std.objectHas(payload, "note")) then { notes: payload.note }
+  else {}

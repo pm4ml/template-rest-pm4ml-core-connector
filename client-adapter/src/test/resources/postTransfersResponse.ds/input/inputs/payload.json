@@ -1,0 +1,110 @@
+{
+  "_Transaction_Details_Transaction": {
+    "ACCOUNT_NAME_TRANSACTION_CHANNEL": "string",
+    "ACCOUNT_NUMBER_TRANSACTION_CHANN": "string",
+    "BANK_NUMBER_TRANSACTION_CHANNEL_": "string",
+    "CHECK_NUMBER_TRANSACTION_CHANNEL": "string",
+    "IDENTIFIER_TRANSACTION_CHANNEL_I": "string",
+    "RECEPIT_NUMBER_TRANSACTION_CHANN": "string",
+    "ROUTING_NUMBER_TRANSACTION_CHANN": "string"
+  },
+  "accountBalances": {
+    "advancePosition": 0,
+    "arrearsPosition": 0,
+    "expectedPrincipalRedraw": 0,
+    "principalBalance": 0,
+    "redrawBalance": 0,
+    "totalBalance": 0
+  },
+  "adjustmentTransactionKey": "string",
+  "affectedAmounts": {
+    "deferredInterestAmount": 0,
+    "feesAmount": 0,
+    "fundersInterestAmount": 0,
+    "interestAmount": 0,
+    "interestFromArrearsAmount": 0,
+    "organizationCommissionAmount": 0,
+    "penaltyAmount": 0,
+    "principalAmount": 0
+  },
+  "amount": 0,
+  "bookingDate": "2016-09-06T13:37:50+03:00",
+  "branchKey": "string",
+  "cardTransaction": {
+    "advice": true,
+    "amount": 0,
+    "cardAcceptor": {
+      "city": "string",
+      "country": "string",
+      "mcc": 0,
+      "name": "string",
+      "state": "string",
+      "street": "string",
+      "zip": "string"
+    },
+    "cardToken": "string",
+    "currencyCode": "string",
+    "encodedKey": "string",
+    "externalAuthorizationReferenceId": "string",
+    "externalReferenceId": "string",
+    "userTransactionTime": "string"
+  },
+  "centreKey": "string",
+  "creationDate": "2016-09-06T13:37:50+03:00",
+  "customPaymentAmounts": [
+    {
+      "amount": 0,
+      "customPaymentAmountType": "PRINCIPAL",
+      "taxOnAmount": 0
+    }
+  ],
+  "encodedKey": "string",
+  "externalId": "string",
+  "fees": [
+    {
+      "amount": 0,
+      "name": "string",
+      "predefinedFeeKey": "string",
+      "taxAmount": 0,
+      "trigger": "MANUAL"
+    }
+  ],
+  "id": "string",
+  "installmentEncodedKey": "string",
+  "migrationEventKey": "string",
+  "notes": "string",
+  "originalAmount": 0,
+  "originalCurrencyCode": "string",
+  "originalTransactionKey": "string",
+  "parentAccountKey": "string",
+  "parentLoanTransactionKey": "string",
+  "prepaymentRecalculationMethod": "NO_RECALCULATION",
+  "taxes": {
+    "deferredTaxOnInterestAmount": 0,
+    "taxOnFeesAmount": 0,
+    "taxOnInterestAmount": 0,
+    "taxOnInterestFromArrearsAmount": 0,
+    "taxOnPenaltyAmount": 0,
+    "taxRate": 0
+  },
+  "terms": {
+    "interestSettings": {
+      "indexInterestRate": 0,
+      "interestRate": 0
+    },
+    "principalPaymentAmount": 0,
+    "principalPaymentPercentage": 0
+  },
+  "tillKey": "string",
+  "transactionDetails": {
+    "transactionChannelId": "string",
+    "transactionChannelKey": "string"
+  },
+  "transferDetails": {
+    "linkedDepositTransactionKey": "string",
+    "linkedLoanTransactionKey": "string"
+  },
+  "type": "IMPORT",
+  "userKey": "string",
+  "valueDate": "2016-09-06T13:37:50+03:00"
+}

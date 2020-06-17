@@ -1,6 +1,3 @@
-local response = payload[0];
-
 {
-  homeTransactionId: response.Status.transactionId
-
+  homeTransactionId: payload.externalId
 }
