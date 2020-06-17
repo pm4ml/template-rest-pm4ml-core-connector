@@ -1,0 +1,7 @@
+{
+  type: "BUSINESS",
+  idType: header.idType,
+  idValue: header.idValue
+}
++ if (std.objectHas(payload, "loanName")) then { displayName: payload.loanName }
+  else {}

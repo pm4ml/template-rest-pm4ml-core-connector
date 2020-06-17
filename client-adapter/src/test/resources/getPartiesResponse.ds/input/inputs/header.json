@@ -1,4 +1,6 @@
 {
   "idType": "ALIAS",
-  "idValue": "422679"
+  "idValue": "422679",
+  "getLoanByIdResponse": {},
+  "getClientByIdResponse": {}
 }
