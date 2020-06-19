@@ -33,6 +33,7 @@
     </camel:camelContext>
 
     <bean id="jacksonJsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+    <bean id="customExceptionMapper" class="com.modusbox.client.exception.CustomExceptionMapper"/>
 
     <camelcxf:rsServer
             id="api-rs-server"
@@ -45,6 +46,7 @@
         </camelcxf:serviceBeans>
         <camelcxf:providers>
             <ref bean="jacksonJsonProvider"/>
+            <ref bean="customExceptionMapper"/>
         </camelcxf:providers>
     </camelcxf:rsServer>
 

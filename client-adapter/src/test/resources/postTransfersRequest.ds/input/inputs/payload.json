@@ -14,5 +14,5 @@
   "transactionType": "TRANSFER",
   "initiatorType": "CONSUMER",
   "note": "test payment",
-  "homeTransactionId": "{{$guid}}"
+  "transferId": "{{$guid}}"
 }

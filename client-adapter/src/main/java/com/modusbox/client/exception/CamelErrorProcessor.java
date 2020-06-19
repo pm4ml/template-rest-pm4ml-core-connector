@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import java.net.SocketTimeoutException;
 
 @Component("errorProcessor")
-public class HttpCamelErrorProcessor implements Processor {
+public class CamelErrorProcessor implements Processor {
 
-    private static final Logger DEFAULT_LOGGER = LoggerFactory.getLogger(com.modusbox.client.exception.HttpCamelErrorProcessor.class);
+    private static final Logger DEFAULT_LOGGER = LoggerFactory.getLogger(CamelErrorProcessor.class);
 
     private Logger log = DEFAULT_LOGGER;
 
@@ -27,7 +27,7 @@ public class HttpCamelErrorProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        String reasonText = "unknown";
+        String reasonText = "{ \"error\": \"Unknown\" }";
         int status = 500;
 
         // The exception may be in 1 of 2 places
@@ -39,7 +39,7 @@ public class HttpCamelErrorProcessor implements Processor {
         this.log.error("processing route exception", exception);
 
         if (exception != null) {
-            if (exception instanceof CustomBadRequestException || exception instanceof BeanValidationException) {
+            if (exception instanceof BeanValidationException) {
                 // Bad Request
                 status = 400;
                 reasonText = "{ \"error\": \"Bad Request\" }";
@@ -50,7 +50,7 @@ public class HttpCamelErrorProcessor implements Processor {
         }
 
         exchange.getMessage().setHeader(Exchange.HTTP_RESPONSE_CODE, status);
-        //exchange.getMessage().setHeader(Exchange.CONTENT_TYPE, "text/plain");
+        exchange.getMessage().setHeader(Exchange.CONTENT_TYPE, "application/json");
         exchange.getMessage().setBody(reasonText);
 
     }

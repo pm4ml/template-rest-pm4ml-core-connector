@@ -210,6 +210,7 @@
                     <!-- Need to add <inputSpec>, <apiPackge>, and <modelPackage>   -->
                     <configuration>
                         <generatorName>jaxrs-spec</generatorName>
+<!--                        <generatorName>jaxrs-cxf</generatorName>-->
                         <output>${project.build.directory}/generated-sources</output>
                         <strictSpec>false</strictSpec>
                         <configOptions>

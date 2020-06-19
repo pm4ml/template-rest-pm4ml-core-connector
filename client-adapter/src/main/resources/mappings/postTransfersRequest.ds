@@ -1,6 +1,7 @@
 {
-  "amount": payload.amount
+  "amount": payload.amount,
+  [if (std.objectHas(payload, "transferId") && payload.transferId != null)
+   then "externalId"]: payload.transferId,
+  [if (std.objectHas(payload, "note") && payload.note != null)
+   then "note"]: payload.note
 }
-+ if (std.objectHas(payload, "homeTransactionId")) then { externalId: payload.homeTransactionId }
-+ if (std.objectHas(payload, "note")) then { notes: payload.note }
-  else {}

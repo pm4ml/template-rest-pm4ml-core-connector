@@ -2,5 +2,5 @@
   "idType": "ALIAS",
   "idValue": "422679",
   "getLoanByIdResponse": {},
-  "getClientByIdResponse": {}
+  "getClientByIdResponse": {"firstName": "asd"}
 }

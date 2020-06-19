@@ -15,10 +15,8 @@ camel:
     name: TestAPI
     stream-caching-enabled: true
 
-t24:
-  soap:
-    url: http://localhost:8080/service/mock.wsdl
-  wsdl:
-    location: wsdl/mockT24.wsdl
-  serviceClass: com.temenos.t24.MockPort
-  nameSpace: http://www.temenos.com/t24
+easy:
+  mambu:
+    host: https://mceasy.sandbox.mambu.com/api
+    username: modusboxapi
+    password: modusbox123

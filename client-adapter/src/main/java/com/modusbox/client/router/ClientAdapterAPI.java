@@ -1,8 +1,7 @@
 package com.modusbox.client.router;
 
-import com.modusbox.client.exception.HttpCamelErrorProcessor;
+import com.modusbox.client.exception.CamelErrorProcessor;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.model.rest.RestParamType;
 
 import javax.annotation.Generated;
 
@@ -18,7 +17,7 @@ public final class ClientAdapterAPI extends RouteBuilder {
 
         restConfiguration().component("jetty").port(3000);
 
-        HttpCamelErrorProcessor errorProcessor = new HttpCamelErrorProcessor();
+        CamelErrorProcessor errorProcessor = new CamelErrorProcessor();
 
         onException(Exception.class)
                 //.logContinued(true).logRetryAttempted(true).logExhausted(true).logStackTrace(true)
@@ -32,6 +31,7 @@ public final class ClientAdapterAPI extends RouteBuilder {
         ;
 
         from("cxfrs:bean:api-rs-server?bindingStyle=SimpleConsumer")
+                .to("bean-validator://x")
                 .toD("direct:${header.operationName}");
 
 //        rest()

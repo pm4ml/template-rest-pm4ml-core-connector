@@ -1,7 +1,7 @@
 {
   type: "BUSINESS",
   idType: header.idType,
-  idValue: header.idValue
+  idValue: header.idValue,
+  [if (std.objectHas(payload, "loanName") && payload.loanName != null)
+   then "displayName"]: payload.loanName
 }
-+ if (std.objectHas(payload, "loanName")) then { displayName: payload.loanName }
-  else {}

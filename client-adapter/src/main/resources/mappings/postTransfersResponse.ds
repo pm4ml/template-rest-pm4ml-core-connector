@@ -1,3 +1,3 @@
 {
-  homeTransactionId: payload.externalId
+  homeTransactionId: payload.id
 }

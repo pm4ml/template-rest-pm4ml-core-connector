@@ -4,9 +4,11 @@ local getClientByIdResponse = header.getClientByIdResponse;
 {
   type: "BUSINESS",
   idType: header.idType,
-  idValue: header.idValue
+  idValue: header.idValue,
+  [if (std.objectHas(getClientByIdResponse, "firstName") && getClientByIdResponse.firstName != null)
+   then "firstName"]: getClientByIdResponse.firstName,
+  [if (std.objectHas(getClientByIdResponse, "lastName") && getClientByIdResponse.lastName != null)
+   then "lastName"]: getClientByIdResponse.lastName,
+  [if (std.objectHas(getClientByIdResponse, "birthDate") && getClientByIdResponse.birthDate != null)
+   then "dateOfBirth"]: getClientByIdResponse.birthDate
 }
-+ if (std.objectHas(getClientByIdResponse, "firstName")) then { firstName: getClientByIdResponse.firstName }
-+ if (std.objectHas(getClientByIdResponse, "lastName")) then { lastName: getClientByIdResponse.lastName }
-+ if (std.objectHas(getClientByIdResponse, "birthDate")) then { dateOfBirth: getClientByIdResponse.birthDate }
-  else {}
