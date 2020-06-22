@@ -1,6 +1,11 @@
 local getLoanByIdResponse = header.getLoanByIdResponse;
 local getClientByIdResponse = header.getClientByIdResponse;
 
+local extensionList = {
+  [if (std.objectHas(getLoanByIdResponse, "loanAmount") && getLoanByIdResponse.loanAmount != null)
+  then "extension"]: [{key: "loanAmount", value: getLoanByIdResponse.loanAmount}]
+};
+
 {
   type: "BUSINESS",
   idType: header.idType,
@@ -10,5 +15,7 @@ local getClientByIdResponse = header.getClientByIdResponse;
   [if (std.objectHas(getClientByIdResponse, "lastName") && getClientByIdResponse.lastName != null)
    then "lastName"]: getClientByIdResponse.lastName,
   [if (std.objectHas(getClientByIdResponse, "birthDate") && getClientByIdResponse.birthDate != null)
-   then "dateOfBirth"]: getClientByIdResponse.birthDate
+   then "dateOfBirth"]: getClientByIdResponse.birthDate,
+  [if (extensionList != {})
+   then "extensionList"]: extensionList
 }
