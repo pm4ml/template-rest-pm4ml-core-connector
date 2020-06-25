@@ -29,6 +29,12 @@
 <!--        <property name="datasonnetFile" value="mappings/postQuoterequestsResponse.ds"/>-->
 <!--    </bean>-->
 
+    <bean id="postQuoterequestsResponseMock" class="com.modus.camel.datasonnet.DatasonnetProcessor" init-method="init">
+        <property name="inputMimeType" value="application/java"/>
+        <property name="outputMimeType" value="application/json"/>
+        <property name="datasonnetFile" value="mappings/postQuoterequestsResponseMock.ds"/>
+    </bean>
+
     <bean id="postTransfersRequest" class="com.modus.camel.datasonnet.DatasonnetProcessor" init-method="init">
         <property name="inputMimeType" value="application/java"/>
         <property name="outputMimeType" value="application/json"/>

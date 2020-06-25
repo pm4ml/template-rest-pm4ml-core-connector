@@ -1,0 +1,56 @@
+{
+  "quoteId": "string",
+  "transactionId": "string",
+  "to": {
+    "type": "CONSUMER",
+    "idType": "MSISDN",
+    "idValue": "string",
+    "displayName": "string",
+    "firstName": "string",
+    "middleName": "string",
+    "lastName": "string",
+    "dateOfBirth": "string",
+    "merchantClassificationCode": "string",
+    "extensionList": {
+      "extension": [
+        {
+          "key": "string",
+          "value": "string"
+        }
+      ]
+    }
+  },
+  "from": {
+    "type": "CONSUMER",
+    "idType": "MSISDN",
+    "idValue": "string",
+    "displayName": "string",
+    "firstName": "string",
+    "middleName": "string",
+    "lastName": "string",
+    "dateOfBirth": "string",
+    "merchantClassificationCode": "string",
+    "extensionList": {
+      "extension": [
+        {
+          "key": "string",
+          "value": "string"
+        }
+      ]
+    }
+  },
+  "amountType": "SEND",
+  "amount": "string",
+  "currency": "string",
+  "feesAmount": "string",
+  "feesCurrency": "string",
+  "transactionType": "TRANSFER",
+  "initiator": "PAYER",
+  "initiatorType": "CONSUMER",
+  "geoCode": {
+    "latitude": "string",
+    "longitude": "string"
+  },
+  "note": "string",
+  "expiration": "string"
+}

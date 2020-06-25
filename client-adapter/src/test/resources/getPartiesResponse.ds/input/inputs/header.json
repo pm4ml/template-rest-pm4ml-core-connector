@@ -2,5 +2,6 @@
   "idType": "ALIAS",
   "idValue": "422679",
   "getLoanByIdResponse": {"loanAmount": "123"},
-  "getClientByIdResponse": {"firstName": "asd"}
+  "getClientByIdResponse": {"firstName": "asd",
+    "birthDate": "1995-05-28T00:00:00+0000"}
 }
