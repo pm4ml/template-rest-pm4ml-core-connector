@@ -18,6 +18,6 @@ camel:
 
 easy:
   mambu:
-    host: https://mceasy.sandbox.mambu.com/api
+    host: mceasy.sandbox.mambu.com/api
     username: modusboxapi
     password: modusbox123

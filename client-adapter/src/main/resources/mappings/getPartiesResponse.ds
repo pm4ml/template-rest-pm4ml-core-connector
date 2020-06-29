@@ -2,10 +2,15 @@ local getLoanByIdResponse = header.getLoanByIdResponse;
 local getClientByIdResponse = header.getClientByIdResponse;
 local formatDate(dateStr) = DS.ZonedDateTime.format(dateStr, "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd");
 
-local extensionList = {
-  [if (std.objectHas(getLoanByIdResponse, "loanAmount") && getLoanByIdResponse.loanAmount != null)
-  then "extension"]: [{key: "loanAmount", value: getLoanByIdResponse.loanAmount}]
-};
+//local extensionList = {
+//  [if (std.objectHas(getLoanByIdResponse, "loanAmount") && getLoanByIdResponse.loanAmount != null)
+//  then "extension"]: [{key: "loanAmount", value: getLoanByIdResponse.loanAmount}]
+//};
+
+local extensionList = [
+  if (std.objectHas(getLoanByIdResponse, "loanAmount") && getLoanByIdResponse.loanAmount != null)
+  then {key: "loanAmount", value: getLoanByIdResponse.loanAmount}
+];
 
 {
   type: "BUSINESS",

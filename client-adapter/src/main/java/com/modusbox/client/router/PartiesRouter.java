@@ -50,7 +50,7 @@ public class PartiesRouter extends RouteBuilder {
 			.setHeader(Exchange.HTTP_METHOD, constant("GET"))
 			.setProperty("authHeader", simple("${properties:easy.mambu.username}:${properties:easy.mambu.password}"))
 			.process(encodeAuthHeader)
-			.toD("{{easy.mambu.host}}/loans/${header.idValue}")
+			.toD("https://{{easy.mambu.host}}/loans/${header.idValue}")
 
 			.unmarshal().json()
 			.setProperty("getLoanByIdResponse", body())
@@ -70,8 +70,8 @@ public class PartiesRouter extends RouteBuilder {
 			.setHeader(Exchange.HTTP_METHOD, constant("GET"))
 			.setProperty("authHeader", simple("${properties:easy.mambu.username}:${properties:easy.mambu.password}"))
 			.process(encodeAuthHeader)
-			.toD("{{easy.mambu.host}}/clients/" + simple("${exchangeProperty.getLoanByIdResponse?.get('accountHolderKey')}").getText())
-
+//			.toD("{{easy.mambu.host}}/clients/" + simple("${exchangeProperty.getLoanByIdResponse?.get('accountHolderKey')}").getText())
+			.toD("https://{{easy.mambu.host}}/clients/${exchangeProperty.getLoanByIdResponse?.get('accountHolderKey')}")
 			.unmarshal().json()
 			// Save response as property to use later
 			.setProperty("getClientByIdResponse", body())
@@ -93,7 +93,7 @@ public class PartiesRouter extends RouteBuilder {
 			.setHeader(Exchange.HTTP_METHOD, constant("GET"))
 			.setProperty("authHeader", simple("${properties:easy.mambu.username}:${properties:easy.mambu.password}"))
 			.process(encodeAuthHeader)
-			.toD("{{easy.mambu.host}}/clients/${header.idValue}/loans")
+			.toD("https://{{easy.mambu.host}}/clients/${header.idValue}/loans")
 //			.bean("getLoansForClientResponse")
 		;
 	}
