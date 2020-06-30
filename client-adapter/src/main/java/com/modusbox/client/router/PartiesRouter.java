@@ -1,14 +1,15 @@
 package com.modusbox.client.router;
 
+import com.modusbox.client.exception.RouteExceptionHandlingConfigurer;
 import com.modusbox.client.processor.EncodeAuthHeader;
 import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 
 
 public class PartiesRouter extends RouteBuilder {
 
 	private EncodeAuthHeader encodeAuthHeader = new EncodeAuthHeader();
+	private RouteExceptionHandlingConfigurer exceptionHandlingConfigurer = new RouteExceptionHandlingConfigurer();
 
     public void configure() {
 
@@ -25,6 +26,9 @@ public class PartiesRouter extends RouteBuilder {
 //					System.out.println();
 //				}
 //			})
+
+		// Add our global exception handling strategy
+		exceptionHandlingConfigurer.configureExceptionHandling(this);
 
 		// In this case the GET parties will return the loan account with client details
 		from("direct:getParties")

@@ -1,16 +1,19 @@
 package com.modusbox.client.router;
 
+import com.modusbox.client.exception.RouteExceptionHandlingConfigurer;
 import com.modusbox.client.processor.EncodeAuthHeader;
 import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 
 
 public class TransfersRouter extends RouteBuilder {
 
     private EncodeAuthHeader encodeAuthHeader = new EncodeAuthHeader();
+    private RouteExceptionHandlingConfigurer exceptionHandlingConfigurer = new RouteExceptionHandlingConfigurer();
 
     public void configure() {
+        // Add our global exception handling strategy
+        exceptionHandlingConfigurer.configureExceptionHandling(this);
 
         from("direct:postTransfers")
             .log("Request transfer API called (loan repayment)")

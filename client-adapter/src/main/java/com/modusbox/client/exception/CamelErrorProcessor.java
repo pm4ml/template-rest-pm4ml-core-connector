@@ -3,6 +3,8 @@ package com.modusbox.client.exception;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.component.bean.validator.BeanValidationException;
+import org.apache.camel.support.processor.validation.SchemaValidationException;
+import org.apache.camel.http.base.HttpOperationFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -36,16 +38,30 @@ public class CamelErrorProcessor implements Processor {
             exception = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class);
         }
 
-        this.log.error("processing route exception", exception);
+        this.log.error("processing route exception", exception.getMessage());
 
         if (exception != null) {
             if (exception instanceof BeanValidationException) {
                 // Bad Request
                 status = 400;
                 reasonText = "{ \"error\": \"Bad Request\" }";
+            } else if (exception instanceof CustomBadRequestException) {
+                // Bad Request
+                status = 400;
+                reasonText = exception.getMessage();
             } else if (exception instanceof SocketTimeoutException) {
                 status = 408;
                 reasonText = "{ \"error\": \"Time Out\" }";
+            } else if (exception instanceof HttpOperationFailedException) {
+                HttpOperationFailedException e = (HttpOperationFailedException) exception;
+                status = 500;
+                reasonText = "{ \"error\": \"Downstream request failed\", " +
+                            "\"response_code\": " + e.getStatusCode() + "," +
+                            "\"response_body\": " + e.getResponseBody() + "}";
+            } else if (exception instanceof SchemaValidationException) {
+                SchemaValidationException e = (SchemaValidationException) exception;
+                status = 400;
+                reasonText = e.getErrors().get(0).getMessage();
             }
         }
 

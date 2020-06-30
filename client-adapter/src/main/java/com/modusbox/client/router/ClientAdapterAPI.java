@@ -15,7 +15,7 @@ public final class ClientAdapterAPI extends RouteBuilder {
      */
     public void configure() {
 
-        restConfiguration().component("jetty").port(3000);
+//        restConfiguration().component("jetty").port(3000);
 
         CamelErrorProcessor errorProcessor = new CamelErrorProcessor();
 

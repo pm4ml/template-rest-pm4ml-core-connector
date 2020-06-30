@@ -1,11 +1,16 @@
 package com.modusbox.client.router;
 
+import com.modusbox.client.exception.RouteExceptionHandlingConfigurer;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 
 public class QuotesRouter extends RouteBuilder {
 
+	private RouteExceptionHandlingConfigurer exceptionHandlingConfigurer = new RouteExceptionHandlingConfigurer();
+
     public void configure() {
+		// Add our global exception handling strategy
+		exceptionHandlingConfigurer.configureExceptionHandling(this);
 
         from("direct:postQuoterequests")
 			.log("POST Quotes API called")
