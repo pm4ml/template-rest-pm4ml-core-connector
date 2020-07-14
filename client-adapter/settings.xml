@@ -37,6 +37,16 @@
                     </snapshots>
                     <url>https://portx.jfrog.io/portx/portx-releases</url>
                 </repository>
+<!--                <repository>-->
+<!--                    <id>mvn-repo</id>-->
+<!--                    <url>http://github.com/modusbox/camel-datasonnet/raw/master</url>-->
+<!--                    <releases>-->
+<!--                        <enabled>true</enabled>-->
+<!--                    </releases>-->
+<!--                    <snapshots>-->
+<!--                        <enabled>true</enabled>-->
+<!--                    </snapshots>-->
+<!--                </repository>-->
             </repositories>
         </profile>
     </profiles>

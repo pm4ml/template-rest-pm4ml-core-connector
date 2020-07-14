@@ -29,3 +29,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+client-adapter/previous\ build/

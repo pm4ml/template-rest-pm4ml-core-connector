@@ -7,7 +7,7 @@ server:
   api:
     listen:
       host: 0.0.0.0
-      port: 3200
+      port: 3002
 camel:
   component: jetty
 

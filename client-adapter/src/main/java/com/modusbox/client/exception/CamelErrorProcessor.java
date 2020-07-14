@@ -62,6 +62,13 @@ public class CamelErrorProcessor implements Processor {
                 SchemaValidationException e = (SchemaValidationException) exception;
                 status = 400;
                 reasonText = e.getErrors().get(0).getMessage();
+            } else if (exception instanceof IllegalArgumentException) {
+                IllegalArgumentException e = (IllegalArgumentException) exception;
+                if (e.getMessage().contains("Problem executing map")) {
+                    status = 500;
+                    reasonText = "{ \"error\": \"Datasonnet mapping failed\", " +
+                            "\"response_body\": \"" + e.getMessage() + "\"}";
+                }
             }
         }
 
