@@ -2,6 +2,7 @@ package com.modusbox.client.router;
 
 import com.modusbox.client.exception.RouteExceptionHandlingConfigurer;
 import com.modusbox.client.processor.EncodeAuthHeader;
+import com.modusbox.client.processor.TrimMFICode;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -9,6 +10,7 @@ import org.apache.camel.builder.RouteBuilder;
 public class PartiesRouter extends RouteBuilder {
 
 	private EncodeAuthHeader encodeAuthHeader = new EncodeAuthHeader();
+	private TrimMFICode trimMFICode = new TrimMFICode();
 	private RouteExceptionHandlingConfigurer exceptionHandlingConfigurer = new RouteExceptionHandlingConfigurer();
 
     public void configure() {
@@ -34,6 +36,8 @@ public class PartiesRouter extends RouteBuilder {
 		from("direct:getParties")
 			.log("Account lookup API called")
 			.log("GET on /${header.idType}/${header.idValue} called")
+			// Trim MFI code from id
+			.process(trimMFICode)
 			// First fetch the loan account by ID
 			.to("direct:getLoanById")
 			// Now fetch the client information for the user the loan acc belongs to
@@ -54,7 +58,7 @@ public class PartiesRouter extends RouteBuilder {
 			.setHeader(Exchange.HTTP_METHOD, constant("GET"))
 			.setProperty("authHeader", simple("${properties:easy.mambu.username}:${properties:easy.mambu.password}"))
 			.process(encodeAuthHeader)
-			.toD("https://{{easy.mambu.host}}/loans/${header.idValue}")
+			.toD("https://{{easy.mambu.host}}/loans/${header.idValueTrimmed}")
 
 			.unmarshal().json()
 			.setProperty("getLoanByIdResponse", body())

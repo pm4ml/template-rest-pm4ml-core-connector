@@ -7,10 +7,10 @@ local formatDate(dateStr) = DS.ZonedDateTime.format(dateStr, "yyyy-MM-dd'T'HH:mm
 //  then "extension"]: [{key: "loanAmount", value: getLoanByIdResponse.loanAmount}]
 //};
 
-local extensionList = [
-  if (std.objectHas(getLoanByIdResponse, "loanAmount") && getLoanByIdResponse.loanAmount != null)
-  then {key: "loanAmount", value: getLoanByIdResponse.loanAmount}
-];
+local extensionList = std.filter(function(item) item != null, [
+  if (std.objectHas(getLoanByIdResponse, "principalBalance") && getLoanByIdResponse.principalBalance != null)
+  then {key: "loanAmount", value: getLoanByIdResponse.principalBalance}
+]);
 
 {
   type: "BUSINESS",
@@ -22,6 +22,6 @@ local extensionList = [
    then "lastName"]: getClientByIdResponse.lastName,
   [if (std.objectHas(getClientByIdResponse, "birthDate") && getClientByIdResponse.birthDate != null)
    then "dateOfBirth"]: formatDate(getClientByIdResponse.birthDate),
-  [if (extensionList != {})
+  [if (extensionList != [null])
    then "extensionList"]: extensionList
 }
