@@ -2,7 +2,708 @@
   "idType": "ALIAS",
   "idValue": "422679",
   "getLoanByIdResponse": {"loanAmount": "123",
-    "principalBalance": "12312"},
+    "principalBalance": "590000"},
   "getClientByIdResponse": {"firstName": "U", "lastName": "Min",
-    "birthDate": "1995-05-28T00:00:00+0000"}
+    "birthDate": "1995-05-28T00:00:00+0000"},
+  "getLoanScheduleByIdResponse": {
+    "installments": [
+      {
+        "encodedKey": "8a8e871f720a346c017211971f914ab6",
+        "number": "1",
+        "dueDate": "2020-06-22T06:30:00+06:30",
+        "lastPaidDate": "2020-06-25T00:30:44+06:30",
+        "repaidDate": "2020-06-25T00:30:44+06:30",
+        "state": "PAID",
+        "principal": {
+          "amount": {
+            "expected": 49117.0000000000,
+            "paid": 49117.0000000000,
+            "due": 0
+          }
+        },
+        "interest": {
+          "amount": {
+            "expected": 16022.0000000000,
+            "paid": 16022.0000000000,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "fee": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "penalty": {
+          "amount": {
+            "expected": 651.0000000000,
+            "paid": 651.0000000000,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        }
+      },
+      {
+        "encodedKey": "8a8e871f720a346c017211971fb54ab7",
+        "number": "2",
+        "dueDate": "2020-07-22T06:30:00+06:30",
+        "lastPaidDate": "2020-07-14T00:01:58+06:30",
+        "repaidDate": "2020-07-14T00:01:58+06:30",
+        "state": "PAID",
+        "principal": {
+          "amount": {
+            "expected": 49117.0000000000,
+            "paid": 49117.0000000000,
+            "due": 0
+          }
+        },
+        "interest": {
+          "amount": {
+            "expected": 14877.0000000000,
+            "paid": 14877.0000000000,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "fee": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "penalty": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        }
+      },
+      {
+        "encodedKey": "8a8e871f720a346c017211971fb54ab8",
+        "number": "3",
+        "dueDate": "2020-08-24T06:30:00+06:30",
+        "lastPaidDate": "2020-07-14T00:10:33+06:30",
+        "repaidDate": "2020-07-14T00:10:33+06:30",
+        "state": "PAID",
+        "principal": {
+          "amount": {
+            "expected": 49117.0000000000,
+            "paid": 49117.0000000000,
+            "due": 0
+          }
+        },
+        "interest": {
+          "amount": {
+            "expected": 13733.0000000000,
+            "paid": 13733.0000000000,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "fee": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "penalty": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        }
+      },
+      {
+        "encodedKey": "8a8e871f720a346c017211971fb54ab9",
+        "number": "4",
+        "dueDate": "2020-09-22T06:30:00+06:30",
+        "lastPaidDate": "2020-07-23T22:17:11+06:30",
+        "repaidDate": "2020-07-23T22:17:11+06:30",
+        "state": "PAID",
+        "principal": {
+          "amount": {
+            "expected": 49117.0000000000,
+            "paid": 49117.0000000000,
+            "due": 0
+          }
+        },
+        "interest": {
+          "amount": {
+            "expected": 12589.0000000000,
+            "paid": 12589.0000000000,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "fee": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "penalty": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        }
+      },
+      {
+        "encodedKey": "8a8e871f720a346c017211971fb54aba",
+        "number": "5",
+        "dueDate": "2020-10-22T06:30:00+06:30",
+        "lastPaidDate": "2020-07-23T22:58:02+06:30",
+        "repaidDate": "2020-07-23T22:58:02+06:30",
+        "state": "PAID",
+        "principal": {
+          "amount": {
+            "expected": 49117.0000000000,
+            "paid": 49117.0000000000,
+            "due": 0
+          }
+        },
+        "interest": {
+          "amount": {
+            "expected": 11444.0000000000,
+            "paid": 11444.0000000000,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "fee": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "penalty": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        }
+      },
+      {
+        "encodedKey": "8a8e871f720a346c017211971fb54abb",
+        "number": "6",
+        "dueDate": "2020-11-23T06:30:00+06:30",
+        "lastPaidDate": "2020-08-13T02:57:45+06:30",
+        "state": "PARTIALLY_PAID",
+        "principal": {
+          "amount": {
+            "expected": 49117.0000000000,
+            "paid": 25901.0000000000,
+            "due": 23216.0000000000
+          }
+        },
+        "interest": {
+          "amount": {
+            "expected": 10300.0000000000,
+            "paid": 10300.0000000000,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "fee": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "penalty": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        }
+      },
+      {
+        "encodedKey": "8a8e871f720a346c017211971fb94abc",
+        "number": "7",
+        "dueDate": "2020-12-22T06:30:00+06:30",
+        "state": "PENDING",
+        "principal": {
+          "amount": {
+            "expected": 49117.0000000000,
+            "paid": 0,
+            "due": 49117.0000000000
+          }
+        },
+        "interest": {
+          "amount": {
+            "expected": 9155.0000000000,
+            "paid": 0,
+            "due": 9155.0000000000
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "fee": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "penalty": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        }
+      },
+      {
+        "encodedKey": "8a8e871f720a346c017211971fb94abd",
+        "number": "8",
+        "dueDate": "2021-01-22T06:30:00+06:30",
+        "state": "PENDING",
+        "principal": {
+          "amount": {
+            "expected": 49117.0000000000,
+            "paid": 0,
+            "due": 49117.0000000000
+          }
+        },
+        "interest": {
+          "amount": {
+            "expected": 8011.0000000000,
+            "paid": 0,
+            "due": 8011.0000000000
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "fee": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "penalty": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        }
+      },
+      {
+        "encodedKey": "8a8e871f720a346c017211971fb94abe",
+        "number": "9",
+        "dueDate": "2021-02-22T06:30:00+06:30",
+        "state": "PENDING",
+        "principal": {
+          "amount": {
+            "expected": 49117.0000000000,
+            "paid": 0,
+            "due": 49117.0000000000
+          }
+        },
+        "interest": {
+          "amount": {
+            "expected": 6867.0000000000,
+            "paid": 0,
+            "due": 6867.0000000000
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "fee": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "penalty": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        }
+      },
+      {
+        "encodedKey": "8a8e871f720a346c017211971fb94abf",
+        "number": "10",
+        "dueDate": "2021-03-22T06:30:00+06:30",
+        "state": "PENDING",
+        "principal": {
+          "amount": {
+            "expected": 49117.0000000000,
+            "paid": 0,
+            "due": 49117.0000000000
+          }
+        },
+        "interest": {
+          "amount": {
+            "expected": 5722.0000000000,
+            "paid": 0,
+            "due": 5722.0000000000
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "fee": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "penalty": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        }
+      },
+      {
+        "encodedKey": "8a8e871f720a346c017211971fb94ac0",
+        "number": "11",
+        "dueDate": "2021-04-22T06:30:00+06:30",
+        "state": "PENDING",
+        "principal": {
+          "amount": {
+            "expected": 49117.0000000000,
+            "paid": 0,
+            "due": 49117.0000000000
+          }
+        },
+        "interest": {
+          "amount": {
+            "expected": 4578.0000000000,
+            "paid": 0,
+            "due": 4578.0000000000
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "fee": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "penalty": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        }
+      },
+      {
+        "encodedKey": "8a8e871f720a346c017211971fbd4ac1",
+        "number": "12",
+        "dueDate": "2021-05-24T06:30:00+06:30",
+        "state": "PENDING",
+        "principal": {
+          "amount": {
+            "expected": 49117.0000000000,
+            "paid": 0,
+            "due": 49117.0000000000
+          }
+        },
+        "interest": {
+          "amount": {
+            "expected": 3433.0000000000,
+            "paid": 0,
+            "due": 3433.0000000000
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "fee": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "penalty": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        }
+      },
+      {
+        "encodedKey": "8a8e871f720a346c017211971fbd4ac2",
+        "number": "13",
+        "dueDate": "2021-06-22T06:30:00+06:30",
+        "state": "PENDING",
+        "principal": {
+          "amount": {
+            "expected": 49117.0000000000,
+            "paid": 0,
+            "due": 49117.0000000000
+          }
+        },
+        "interest": {
+          "amount": {
+            "expected": 2289.0000000000,
+            "paid": 0,
+            "due": 2289.0000000000
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "fee": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "penalty": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        }
+      },
+      {
+        "encodedKey": "8a8e871f720a346c017211971fbd4ac3",
+        "number": "14",
+        "dueDate": "2021-07-22T06:30:00+06:30",
+        "state": "PENDING",
+        "principal": {
+          "amount": {
+            "expected": 49115.0000000000,
+            "paid": 0,
+            "due": 49115.0000000000
+          }
+        },
+        "interest": {
+          "amount": {
+            "expected": 1144.0000000000,
+            "paid": 0,
+            "due": 1144.0000000000
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "fee": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        },
+        "penalty": {
+          "amount": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          },
+          "tax": {
+            "expected": 0,
+            "paid": 0,
+            "due": 0
+          }
+        }
+      }
+    ]
+  }
 }
