@@ -1,15 +1,25 @@
+//local getLoanByIdResponse = if std.objectHas(header, "getLoanByIdResponse") then header.getLoanByIdResponse else {};
 local getLoanByIdResponse = header.getLoanByIdResponse;
+local getLoanScheduleByIdResponse = header.getLoanScheduleByIdResponse;
 local getClientByIdResponse = header.getClientByIdResponse;
 local formatDate(dateStr) = DS.ZonedDateTime.format(dateStr, "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd");
 
-//local extensionList = {
-//  [if (std.objectHas(getLoanByIdResponse, "loanAmount") && getLoanByIdResponse.loanAmount != null)
-//  then "extension"]: [{key: "loanAmount", value: getLoanByIdResponse.loanAmount}]
-//};
+local loanSchedule = getLoanScheduleByIdResponse.installments;
+local unpaidInstallments = std.filter(function(i) i.state != "PAID", loanSchedule);
+local unpaidInstallmentsSorted = std.sort(unpaidInstallments, function(x) std.parseJson(x.number));
+
+local calcTotalDue(installment) =
+  installment.principal.amount.due +
+  installment.interest.amount.due + installment.interest.tax.due +
+  installment.fee.amount.due + installment.fee.tax.due +
+  installment.penalty.amount.due + installment.penalty.tax.due;
 
 local extensionList = std.filter(function(item) item != null, [
-  if (std.objectHas(getLoanByIdResponse, "principalBalance") && getLoanByIdResponse.principalBalance != null)
-  then {key: "loanAmount", value: getLoanByIdResponse.principalBalance}
+  if (unpaidInstallmentsSorted != [])
+    then {key: "loanAmount", value: std.toString(calcTotalDue(unpaidInstallmentsSorted[0]))}
+    else {key: "loanAmount", value: "0"}
+  ,if (std.objectHas(getLoanByIdResponse, "principalBalance") && getLoanByIdResponse.principalBalance != null)
+    then {key: "loanAmountTotal", value: getLoanByIdResponse.principalBalance},
 ]);
 
 {
@@ -22,6 +32,6 @@ local extensionList = std.filter(function(item) item != null, [
    then "lastName"]: getClientByIdResponse.lastName,
   [if (std.objectHas(getClientByIdResponse, "birthDate") && getClientByIdResponse.birthDate != null)
    then "dateOfBirth"]: formatDate(getClientByIdResponse.birthDate),
-  [if (extensionList != [null])
+  [if (extensionList != [])
    then "extensionList"]: extensionList
-}
+ }
