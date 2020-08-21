@@ -15,27 +15,28 @@ public class PartiesRouter extends RouteBuilder {
 
     public void configure() {
 
-//			 Using Camel authentication query parameters
-//			.toD(host + "/clients/${header.accountId}" +
-//				"?authMethod=Basic&authUsername=" + username + "&authPassword=" + password); //.to() doesn't work here
+			 /*Using Camel authentication query parameters
+			.toD(host + "/clients/${header.accountId}" +
+				"?authMethod=Basic&authUsername=" + username + "&authPassword=" + password); //.to() doesn't work here
 
-//	        .setHeader(CxfConstants.OPERATION_NAME, constant("AccountLookup"))
-//	        .to("direct:callT24EndPoint")
+	        .setHeader(CxfConstants.OPERATION_NAME, constant("AccountLookup"))
+	        .to("direct:callT24EndPoint")
 
-//			.unmarshal().json()
-//			.process(new Processor() {
-//				public void process(Exchange exchange) throws Exception {
-//					System.out.println();
-//				}
-//			})
+			.unmarshal().json()
+			.process(new Processor() {
+				public void process(Exchange exchange) throws Exception {
+					System.out.println();
+				}
+			})*/
 
 		// Add our global exception handling strategy
 		exceptionHandlingConfigurer.configureExceptionHandling(this);
 
 		// In this case the GET parties will return the loan account with client details
 		from("direct:getParties")
-			.log("Account lookup API called")
-			.log("GET on /${header.idType}/${header.idValue} called")
+			.to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
+																"'Request received, GET /parties/${header.idType}/${header.idValue}', " +
+																"null, null, 'fspiop-source: ${header.fspiop-source}')")
 			// Trim MFI code from id
 			.process(trimMFICode)
 			// First fetch the loan account by ID
@@ -44,12 +45,13 @@ public class PartiesRouter extends RouteBuilder {
 			.to("direct:getClientById")
 			// Format the 2 responses
 			.bean("getPartiesResponse")
+			.to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
+																"'Final Response: ${body}', " +
+																"null, null, 'Response of GET parties/${header.idType}/${header.idValue} API')")
         ;
-
 
 		// API call to Mambu for loan information by ID
 		from("direct:getLoanById")
-			.log("Get loan account by ID route called")
 			.setBody(simple("{}"))
 
 			.removeHeaders("CamelHttp*")
@@ -58,9 +60,16 @@ public class PartiesRouter extends RouteBuilder {
 			.setHeader(Exchange.HTTP_METHOD, constant("GET"))
 			.setProperty("authHeader", simple("${properties:easy.mambu.username}:${properties:easy.mambu.password}"))
 			.process(encodeAuthHeader)
+			.to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
+																"'Calling Mambu API, getLoanById', " +
+																"'Tracking the request', 'Track the response', " +
+																"'Request sent to, GET https://{{easy.mambu.host}}/loans/${header.idValueTrimmed}')")
 			.toD("https://{{easy.mambu.host}}/loans/${header.idValueTrimmed}")
 
 			.unmarshal().json()
+			.to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
+																"'Response from Mambu API, getLoanById: ${body}', " +
+																"'Tracking the response', 'Verify the response', null)")
 			.setProperty("getLoanByIdResponse", body())
 			.setHeader("getLoanByIdResponse", body())
 //			.bean("getLoanByIdResponse")
@@ -69,7 +78,6 @@ public class PartiesRouter extends RouteBuilder {
 
 		// API call to Mambu for client information by ID
 		from("direct:getClientById")
-			.log("Get client by ID route called")
 			.setBody(simple("{}"))
 
 			.removeHeaders("CamelHttp*")
@@ -79,8 +87,15 @@ public class PartiesRouter extends RouteBuilder {
 			.setProperty("authHeader", simple("${properties:easy.mambu.username}:${properties:easy.mambu.password}"))
 			.process(encodeAuthHeader)
 //			.toD("{{easy.mambu.host}}/clients/" + simple("${exchangeProperty.getLoanByIdResponse?.get('accountHolderKey')}").getText())
+			.to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
+																"'Calling Mambu API, getClientByLoanId', " +
+																"'Tracking the request', 'Track the response', " +
+																"'Request sent to, GET https://{{easy.mambu.host}}/clients/${exchangeProperty.getLoanByIdResponse?.get('accountHolderKey')}')")
 			.toD("https://{{easy.mambu.host}}/clients/${exchangeProperty.getLoanByIdResponse?.get('accountHolderKey')}")
 			.unmarshal().json()
+			.to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
+																"'Response from Mambu API, getClientByLoanId: ${body}', " +
+																"'Tracking the response', 'Verify the response', null)")
 			// Save response as property to use later
 			.setProperty("getClientByIdResponse", body())
 			// Also save it as a header variable since the camel datasonnet processor
@@ -101,7 +116,15 @@ public class PartiesRouter extends RouteBuilder {
 			.setHeader(Exchange.HTTP_METHOD, constant("GET"))
 			.setProperty("authHeader", simple("${properties:easy.mambu.username}:${properties:easy.mambu.password}"))
 			.process(encodeAuthHeader)
+			.to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
+																"'Calling Mambu API, getLoansForClient', " +
+																"'Tracking the request', 'Track the response', " +
+																"'Request sent to, GET https://{{easy.mambu.host}}/clients/${header.idValue}/loans')")
 			.toD("https://{{easy.mambu.host}}/clients/${header.idValue}/loans")
+			.unmarshal().json()
+			.to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
+																"'Response from Mambu API, getLoansForClient: ${body}', " +
+																"'Tracking the response', 'Verify the response', null)")
 //			.bean("getLoansForClientResponse")
 		;
 	}

@@ -23,6 +23,7 @@
     <bean id="partiesRouter" class="com.modusbox.client.router.PartiesRouter" />
     <bean id="quotesRouter" class="com.modusbox.client.router.QuotesRouter" />
     <bean id="transfersRouter" class="com.modusbox.client.router.TransfersRouter" />
+    <bean id="customJsonMessage" class="com.modusbox.log4j2.message.CustomJsonMessageImpl" />
 
     <camel:camelContext>
 <!--        <camel:package>com.modusbox.client.router</camel:package>-->
