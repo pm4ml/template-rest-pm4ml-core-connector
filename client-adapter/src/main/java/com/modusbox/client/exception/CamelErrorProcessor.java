@@ -54,7 +54,8 @@ public class CamelErrorProcessor implements Processor {
                 reasonText = "{ \"error\": \"Time Out\" }";
             } else if (exception instanceof HttpOperationFailedException) {
                 HttpOperationFailedException e = (HttpOperationFailedException) exception;
-                status = 500;
+//                status = 500;
+                status = e.getStatusCode();
                 reasonText = "{ \"error\": \"Downstream request failed\", " +
                             "\"response_code\": " + e.getStatusCode() + "," +
                             "\"response_body\": " + e.getResponseBody() + "}";
