@@ -19,7 +19,8 @@ public class TransfersRouter extends RouteBuilder {
         exceptionHandlingConfigurer.configureExceptionHandling(this);
 
         from("direct:postTransfers")
-            .to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
+                .routeId("com.modusbox.postTransfers")
+                .to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
                                                                 "'Request received, POST /transfers', " +
                                                                 "null, null, 'Input Payload: ${body}')")
             .setHeader("idType", simple("${body.getTo().getIdType()}"))

@@ -35,7 +35,7 @@ public class PartiesRouter extends RouteBuilder {
 
 		// In this case the GET parties will return the loan account with client details
 		from("direct:getParties")
-				.routeId("getParties")
+				.routeId("com.modusbox.getParties")
 				.to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
 																	"'Request received, GET /parties/${header.idType}/${header.idValue}', " +
 																	"null, null, 'fspiop-source: ${header.fspiop-source}')")
