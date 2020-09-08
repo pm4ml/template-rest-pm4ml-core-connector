@@ -27,7 +27,7 @@ public class ApplicationCucumberSteps {
     //
     // Values from test
     //
-    private String applicationBaseUrl = "http://localhost:3000";
+    private String applicationBaseUrl = "http://localhost:3002";
     private String postContent;
     private Map<String, String> postHeaders = new TreeMap<>();
 

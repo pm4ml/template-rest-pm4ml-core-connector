@@ -9,7 +9,7 @@ To Build the project using Docker: docker build -t client-adapter .
 
 To run the project using Docker: docker run -p 3000:3000 -p 8080:8080 -t client-adapter
 
-To run the Integration Tests (run mvn clean install under client-adapter folder first): mvn -Pdocker-it clean install
+To run the Integration Tests (run mvn clean install under client-adapter folder first): mvn -P docker-it clean install
 
 Architecture diagram:
 

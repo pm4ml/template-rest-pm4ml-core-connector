@@ -148,14 +148,14 @@
                             </build>
                             <run>
                                 <ports>
-                                    <port>application-host-port:3000</port>
+                                    <port>application-host-port:3002</port>
                                 </ports>
                                 <network>
                                     <mode>custom</mode>
                                     <name>client-adapter.nw01</name>
                                 </network>
                                 <wait>
-<!--                                    <log>Started Application in .* seconds</log>-->
+                                    <log>Started Application in .* seconds</log>
                                     <time>30000</time>
                                 </wait>
                             </run>
@@ -194,7 +194,7 @@
                                 <property>
                                     <name>application-base-url</name>
                                     <!--suppress MavenModelInspection -->
-                                    <value>http://localhost:${application-host-port}</value>
+                                    <value>http://localhost:3002</value>
                                 </property>
                             </systemProperties>
                         </configuration>
