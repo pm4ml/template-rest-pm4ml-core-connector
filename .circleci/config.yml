@@ -1,0 +1,56 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+
+
+orbs:
+  docker: circleci/docker@1.5.0
+
+
+executors:
+  default-machine:
+    working_directory: /home/circleci/project/git
+    machine:
+      image: ubuntu-1604:201903-01
+
+
+workflows:
+  build_and_deploy:
+    jobs:
+      - docker/publish:
+          executor: default-machine
+          context: wmt
+          before_build:
+            - restore_cache:
+                keys:
+                  - v1-dependencies-{{ checksum "pom.xml" }} # appends cache key with a hash of pom.xml file
+                  - v1-dependencies- # fallback in case previous cache key is not found
+            - run:
+                name: Maven build
+                command: |
+                  echo "Building Maven project"
+                  mvn clean install
+            - save_cache:
+                key: v1-dependencies-{{ checksum "pom.xml" }}
+                paths:
+                  - ~/.m2
+            - run:
+                name: Set image tag
+                command: |
+                  if [[ -v CIRCLE_TAG ]]; then
+                    echo 'export IMAGE_TAG=$(echo $CIRCLE_TAG | tr -d v)' >> $BASH_ENV
+                  else
+                    echo 'export IMAGE_TAG=$CIRCLE_BRANCH' >> $BASH_ENV
+                  fi
+          lint-dockerfile: false
+          # image: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
+          image: mbx-cicd-deployer/$CIRCLE_PROJECT_REPONAME
+          tag: $IMAGE_TAG
+          registry: $DOCKER_REGISTRY
+          docker-username: DOCKER_USER
+          docker-password: DOCKER_PASSWORD
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*(\-snapshot)?(\-hotfix(\.[0-9]+))?/
+            branches:
+              ignore:
+                - /.*/
