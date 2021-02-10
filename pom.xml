@@ -13,7 +13,9 @@
     <groupId>com.modusbox</groupId>
     <artifactId>mambu-client-adapter</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
+
+    <name>Mambu client adapter :: Main</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

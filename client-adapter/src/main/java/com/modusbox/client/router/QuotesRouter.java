@@ -6,7 +6,7 @@ import org.apache.camel.builder.RouteBuilder;
 
 public class QuotesRouter extends RouteBuilder {
 
-	private RouteExceptionHandlingConfigurer exceptionHandlingConfigurer = new RouteExceptionHandlingConfigurer();
+	private final RouteExceptionHandlingConfigurer exceptionHandlingConfigurer = new RouteExceptionHandlingConfigurer();
 
     public void configure() {
 		// Add our global exception handling strategy
