@@ -21,3 +21,7 @@ easy:
     host: mceasy.sandbox.mambu.com/api
     username: modusboxapi
     password: modusbox123
+
+#informed through runtime variable (java -Doutbound.endpoint=http://localhost:3003)
+#outbound:
+#  endpoint:  http://localhost:3003

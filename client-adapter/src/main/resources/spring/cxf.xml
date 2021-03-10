@@ -23,6 +23,7 @@
     <bean id="partiesRouter" class="com.modusbox.client.router.PartiesRouter" />
     <bean id="quotesRouter" class="com.modusbox.client.router.QuotesRouter" />
     <bean id="transfersRouter" class="com.modusbox.client.router.TransfersRouter" />
+    <bean id="sendmoneyRouter" class="com.modusbox.client.router.SendmoneyRouter" />
     <bean id="customJsonMessage" class="com.modusbox.log4j2.message.CustomJsonMessageImpl" />
 
     <camel:camelContext>
@@ -31,6 +32,7 @@
         <camel:routeBuilder ref="partiesRouter"/>
         <camel:routeBuilder ref="quotesRouter"/>
         <camel:routeBuilder ref="transfersRouter"/>
+        <camel:routeBuilder ref="sendmoneyRouter"/>
     </camel:camelContext>
 
     <bean id="jacksonJsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
@@ -44,6 +46,7 @@
             <bean class="com.modusbox.client.jaxrs.PartiesApiImpl"/>
             <bean class="com.modusbox.client.jaxrs.QuotesApiImpl"/>
             <bean class="com.modusbox.client.jaxrs.TransfersApiImpl"/>
+            <bean class="com.modusbox.client.jaxrs.SendmoneyApiImpl"/>
         </camelcxf:serviceBeans>
         <camelcxf:providers>
             <ref bean="jacksonJsonProvider"/>

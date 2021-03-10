@@ -4,15 +4,14 @@ import com.modusbox.client.exception.RouteExceptionHandlingConfigurer;
 import com.modusbox.client.processor.EncodeAuthHeader;
 import com.modusbox.client.processor.TrimMFICode;
 import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 
 
 public class TransfersRouter extends RouteBuilder {
 
-    private EncodeAuthHeader encodeAuthHeader = new EncodeAuthHeader();
-    private TrimMFICode trimMFICode = new TrimMFICode();
-    private RouteExceptionHandlingConfigurer exceptionHandlingConfigurer = new RouteExceptionHandlingConfigurer();
+    private final EncodeAuthHeader encodeAuthHeader = new EncodeAuthHeader();
+    private final TrimMFICode trimMFICode = new TrimMFICode();
+    private final RouteExceptionHandlingConfigurer exceptionHandlingConfigurer = new RouteExceptionHandlingConfigurer();
 
     public void configure() {
         // Add our global exception handling strategy

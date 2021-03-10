@@ -1,13 +1,15 @@
 package com.modusbox.client.jaxrs;
 
 import com.modusbox.client.api.TransfersApi;
-import com.modusbox.client.model.TransferRequest;
-import com.modusbox.client.model.TransferResponse;
+import com.modusbox.client.model.TransferRequestInbound;
+import com.modusbox.client.model.TransferResponseInbound;
+
+import javax.validation.Valid;
 
 public class TransfersApiImpl implements TransfersApi {
 
     @Override
-    public TransferResponse postTransfers(TransferRequest transferRequest) {
+    public TransferResponseInbound postTransfers(@Valid TransferRequestInbound transferRequestInbound) {
         return null;
     }
 }

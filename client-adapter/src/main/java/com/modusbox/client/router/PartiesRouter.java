@@ -9,9 +9,9 @@ import org.apache.camel.builder.RouteBuilder;
 
 public class PartiesRouter extends RouteBuilder {
 
-	private EncodeAuthHeader encodeAuthHeader = new EncodeAuthHeader();
-	private TrimMFICode trimMFICode = new TrimMFICode();
-	private RouteExceptionHandlingConfigurer exceptionHandlingConfigurer = new RouteExceptionHandlingConfigurer();
+	private final EncodeAuthHeader encodeAuthHeader = new EncodeAuthHeader();
+	private final TrimMFICode trimMFICode = new TrimMFICode();
+	private final RouteExceptionHandlingConfigurer exceptionHandlingConfigurer = new RouteExceptionHandlingConfigurer();
 
 	public void configure() {
 
