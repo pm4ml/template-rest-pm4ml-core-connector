@@ -29,7 +29,7 @@
         <maven.build-helper.version>3.0.0</maven.build-helper.version>
         <maven.compiler.version>3.8.0</maven.compiler.version>
         <openapi-generator.version>4.3.0</openapi-generator.version>
-        <hibernate.version>5.3.5.Final</hibernate.version>
+        <hibernate.version>5.3.6.Final</hibernate.version>
         <jackson.version>2.10.3</jackson.version>
         <cxf.version>3.3.6</cxf.version>
         <cucumber.version>2.4.0</cucumber.version>
