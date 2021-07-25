@@ -6,13 +6,13 @@
 
     <parent>
         <groupId>com.modusbox</groupId>
-        <artifactId>mambu-client-adapter</artifactId>
+        <artifactId>template-core-connector</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>client-adapter-it</artifactId>
+    <artifactId>core-connector-it</artifactId>
 
-    <name>Client Adapter :: Build Time Integration Tests</name>
+    <name>Core Connector :: Build Time Integration Tests</name>
 
     <description>
         Executes build-time integration tests.
@@ -116,7 +116,7 @@
 
                     <images>
                         <image>
-                            <name>client-adapter-image</name>
+                            <name>core-connector-image</name>
                             <alias>application</alias>
 
                             <build>
@@ -129,7 +129,7 @@
                                             <file>
                                                 <!--suppress UnresolvedMavenProperty -->
                                                 <source>
-                                                    ${user.home}/.m2/repository/${m2.project.path}/client-adapter/${project.version}/client-adapter-${project.version}.jar
+                                                    ${user.home}/.m2/repository/${m2.project.path}/core-connector/${project.version}/core-connector-${project.version}.jar
                                                 </source>
                                                 <outputDirectory/>
                                             </file>
@@ -141,7 +141,7 @@
                                         <arg>java</arg>
                                         <arg>-jar</arg>
                                         <arg>
-                                            /app/client-adapter-${project.version}.jar
+                                            /app/core-connector-${project.version}.jar
                                         </arg>
                                     </exec>
                                 </entryPoint>
@@ -152,7 +152,7 @@
                                 </ports>
                                 <network>
                                     <mode>custom</mode>
-                                    <name>client-adapter.nw01</name>
+                                    <name>core-connector.nw01</name>
                                 </network>
                                 <wait>
                                     <log>Started Application in .* seconds</log>

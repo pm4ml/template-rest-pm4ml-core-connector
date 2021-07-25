@@ -11,11 +11,11 @@
     </parent>
 
     <groupId>com.modusbox</groupId>
-    <artifactId>mambu-client-adapter</artifactId>
+    <artifactId>template-core-connector</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
-    <name>Mambu client adapter :: Main</name>
+    <name>Core Connector :: Parent</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,9 +36,9 @@
     </properties>
 
     <modules>
-        <module>client-adapter</module>
-        <module>client-adapter-interface</module>
-        <!--        <module>client-adapter-soap-mock</module>-->
+        <module>core-connector</module>
+        <module>core-connector-interface</module>
+        <!--        <module>core-connector-soap-mock</module>-->
     </modules>
 
     <dependencyManagement>
@@ -46,12 +46,12 @@
             <!-- INTERNAL PROJECT DEPENDENCIES -->
             <dependency>
                 <groupId>com.modusbox</groupId>
-                <artifactId>client-adapter</artifactId>
+                <artifactId>core-connector</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.modusbox</groupId>
-                <artifactId>client-adapter-interface</artifactId>
+                <artifactId>core-connector-interface</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -238,7 +238,7 @@
         <profile>
             <id>docker-it</id>
             <modules>
-                <module>client-adapter-it</module>
+                <module>core-connector-it</module>
             </modules>
             <activation>
                 <activeByDefault>false</activeByDefault>

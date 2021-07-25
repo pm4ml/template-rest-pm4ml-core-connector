@@ -11,6 +11,9 @@ Template project for Mojaloop connector for a core banking system.
 - [Swagger](https://swagger.io/)
 - [OpenAPI Generator Maven Plugin](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin)
 
+On copy this template project, rename the project name in following places:
+>TODO: add places where project name must be renamed
+
 ## Local development
 
 To generate the Java Rest DSL router and Model files (in parent pom): 
@@ -23,29 +26,24 @@ To build the project:
 mvn clean package
 ```
 
-To build the project using Docker: 
+To run the Java application, first run the Maven build and then Java jarfile:
 ```sh
-docker build -t client-adapter
+$ java -jar ./core-connector/target/core-connector-{{version}}.jar
 ```
 
-To run the project using Docker: 
-```sh
-docker run -p 3000:3000 -p 8080:8080 -t client-adapter
-```
+Or to run the Java application from Intellij IDE, add the configuration for `Run/Debug`.
+> TODO: add steps/screenshots to run application from Intellij
 
-To run the Integration Tests (run mvn clean install under client-adapter folder first):
-```sh
-mvn -P docker-it clean install
-```
+> TODO: add new topic to cover patterns followed for the Core Connector development (Apache Camel, Datasonnet, Logging, etc...)
+> 
+### Overwrite application properties
+**NOTE:** Each Core Connector project has its own set of credentials to be declared at runtime. So please check the repo has the additional information on this regard. 
 
-### Run with environment variable
+:warning: **IMPORTANT:** please don't commit the `application.yaml` with hard coded DFSP credentials. :warning:
 
-Application **must** receive the BACKEND_ENDPOINT environment variable to connect to mojaloop-simulator.
+To run Java application and set custom system property will enable to overwrite values from `application.yaml`.
 ```sh
-$ java -Dbackend.endpoint=http://simulator:3000 -Doutbound.endpoint=http://simulator:3003 -jar ./client-adapter/target/client-adapter.jar
-```
-```sh
-$ docker run --rm -e BACKEND_ENDPOINT=http://simulator:3000 -e MLCONN_OUTBOUND_ENDPOINT=http://simulator:3003 -p 3002:3002 mojaloop-simulator-core-connector:latest
+$ java -Dml-conn.outbound.host=http://simulator:4001 -jar ./core-connector/core-connector-{{version}}.jar
 ```
 
 ### Run Mojaloop Simulator
@@ -54,16 +52,49 @@ To enable backend connection test, run `mojaloop-simulator-backend` before run c
 $ docker run --rm -p 3000:3000 mojaloop-simulator-backend:latest
 ```
 
-### Build Docker Image
+### Docker Image
 To build a new Docker image based on Dockerfile.
 ```sh
-$ docker build -t mojaloop-simulator-core-connector:latest .
+$ docker build -t mojaloop-core-connector:latest .
 ```
 
-## Release Core Connector image
+To run the Docker image:
+```sh
+docker run -p 3000:3000 -p 8080:8080 -t core-connector
+```
 
-1. Ensure the project has the updated Dockerfile.
+To run the Docker image overwriting the application properties, set the environment variable as per listed into Dockerfile. The pattern to set Docker environment variables is CAPITAL_UNDERSCORE.
+```sh
+$ docker run --rm -e BACKEND_ENDPOINT=http://simulator:3000 -e MLCONN_OUTBOUND_ENDPOINT=http://simulator:3003 -p 3002:3002 mojaloop-simulator-core-connector:latest
+```
 
+To run the Integration Tests (run mvn clean install under core-connector folder first):
+```sh
+mvn -P docker-it clean install
+```
+
+## Deployment
+
+### Setup CircleCI pipeline
+
+Before release a new version of core connector project, it is good setup CircleCI pipeline.
+There is a template of `config.yml` file under `.circleci` directory. Usually it doesn't require any change.
+The existing configuration file sets to:
+ - Package a JAR file by Maven build.
+ - Build a Docker container image based on project Dockerfile for the application JAR file.
+ - Push the Docker container image to its repository.
+ - Trigger all the above steps only on Git tag (GitHub Release).
+Follow the below steps to setup the CircleCI pipeline:
+1. Access the organization [CircleCI](https://app.circleci.com/pipelines/github/modusintegration). 
+   Use **Log In with GitHub** option on Sing In. 
+1. On **Projects** menu, look for the core connector project and press to **Set Up Project**.
+1. On select a `config.yml` file dialog box, check the option for existent `.circleci/config.yml` in repo and sign it to `master` branch. Press to continue to the project dashboard.
+1. Press the **Project Settings** button and select **Environment Variables** menu. Press to **Import Variables**, select any other core connector project and confirm the import action.
+1. Now the CircleCI pipeline should be able to be triggered once GitHub project receive a [new release/tag](#release-core-connector-image).
+
+### Release Core Connector image
+
+1. Ensure the Dockerfile is updated.
 1. The project has a CircleCI pipeline that will take care to publish the docker file to proper the repository.
 To trigger the pipeline, create a new `tag` or use **Releases** on GitHub.
 Keep the following pattern on create a new tag: `vM.m.p` (Ex: v1.0.0 **Important**: lowercase *v*).
@@ -85,7 +116,7 @@ Keep the following pattern on create a new tag: `vM.m.p` (Ex: v1.0.0 **Important
 repository `mbx-docker > modusintegration > [[project_name]]`.
 ![](img/jfrog1.png)
 
-## PM4ML Helm Chart
+### PM4ML Helm Chart
 
 > **Prerequisites**
 >- Access to [PM4ML Helm Chart project](https://github.com/pm4ml/mojaloop-payment-manager-helm).
@@ -94,7 +125,7 @@ To run in the infrastructure invironment, the core connectors must to be part of
 
 First, clone the PM4ML Helm Chart project. Then, follow the topic to [add](#adding-a-core-connector-chart) a new core core connector chart or to [update](#updating-a-core-connector-chart) the existent one. Finally, [deploy](#gitlab-deployment) the new chart version into the proper environment.
 
-### Adding a core connector chart
+#### Adding a core connector chart
 
 If this is a new custom core connector implementation, the PM4ML Helm Chart project must to be updated to contemplate it.
 
@@ -104,43 +135,43 @@ Follow the below steps fits better the need:
 
 #### a. Copying an existent chart folder
 
-1. Under the root `mojaloop-payment-manager-helm` folder, find and copy the `mojaloop-simulator-core-connector` folder as template.Paste and rename it following the pattern like `mojaloop-[[fsp_name]]-core-connector`.
+1. Under the root `mojaloop-payment-manager-helm` folder, find and copy the `mojaloop-simulator-core-connector` folder as template.Paste and rename it following the pattern like `mojaloop-[[fsp_vendor_name]]-core-connector`.
 ![](img/chart_copy1.png)
 ![](img/chart_copy2.png)
 
-1. With help of a code editor, like VS Code, go through each file under the added chart folder and replace all the value `mojaloop-simulator-core-connector` to `mojaloop-[[fsp_name]]-core-connector`.
+1. With help of a code editor, like VS Code, go through each file under the added chart folder and replace all the value `mojaloop-simulator-core-connector` to `mojaloop-[[fsp_vendor_name]]-core-connector`.
 ![](img/chart_copy3.png)
 
 1. Change the properties of the below files to correspond to the added chart:
 
-    1. `./mojaloop-[[fsp_name]]-core-connector/Chart.yaml`
+    1. `./mojaloop-[[fsp_vendor_name]]-core-connector/Chart.yaml`
         - **appVersion:** The core connector release number.
         - **version:** The Chart version. Since this is a new one set as `v1.0.0`.
 
-    1. `./mojaloop-[[fsp_name]]-core-connector/values.yaml`
+    1. `./mojaloop-[[fsp_vendor_name]]-core-connector/values.yaml`
         - **image.repository:** URL to the core connector Docker image repository.
         - **image.tag:** The core connector release version.
         - **env:** It includes all the environment variables the core connector application is listen to. Since it was copied from another project maybe the standard variables is already set and no need to change the existent values. On add more variables, follow the pattern like `CAPITALIZE_UNDERSCORE`.
         - **service.port:** The port number the application is running into the container. The standard is `3003`.
     
-    1. `./mojaloop-[[fsp_name]]-core-connector/templates/deployment.yaml`
+    1. `./mojaloop-[[fsp_vendor_name]]-core-connector/templates/deployment.yaml`
         - **spec.template.spec.containers.env:** This is the place where the environment variables will be applied to the Docker image. If no new variable added no change is requested. If so, add a new block with `name` standing for the variable Docker image is listen to and `value` standing for reference for the variable set in the previous `values.yaml`. 
 
     1. `./environments/values-ci.yaml`
-        - Find the block of code for `mojaloop-simulator-core-connector`, copy and paste it below the last core connector block and rename it to the new `mojaloop-[[fsp_name]]-core-connector`. If no new variable added no change is requested. If so, add the new variable and its value.
+        - Find the block of code for `mojaloop-simulator-core-connector`, copy and paste it below the last core connector block and rename it to the new `mojaloop-[[fsp_vendor_name]]-core-connector`. If no new variable added no change is requested. If so, add the new variable and its value.
 
     1. `./environments/values-minikube.yaml`
-        - Find the block of code for `mojaloop-simulator-core-connector`, copy and paste it below the last core connector block and rename it to the new `mojaloop-[[fsp_name]]-core-connector`. If no new variable added no change is requested. If so, add the new variable and its value.
+        - Find the block of code for `mojaloop-simulator-core-connector`, copy and paste it below the last core connector block and rename it to the new `mojaloop-[[fsp_vendor_name]]-core-connector`. If no new variable added no change is requested. If so, add the new variable and its value.
 
     1. `./mojaloop-payment-manager/requirements.yaml`
         - Find the block of code for `mojaloop-simulator-core-connector`, copy and paste it below the last core connector block.
-        - **name**: replace from `mojaloop-simulator-core-connector` to `mojaloop-[[fsp_name]]-core-connector`.
-        - **version**: the same value set on `./mojaloop-[[fsp_name]]-core-connector/Chart.yaml` **version**.
-        - **repository**: replace from `mojaloop-simulator-core-connector` to `mojaloop-[[fsp_name]]-core-connector`.
-        - **condition**: replace from `mojaloop-simulator-core-connector` to `mojaloop-[[fsp_name]]-core-connector`.
+        - **name**: replace from `mojaloop-simulator-core-connector` to `mojaloop-[[fsp_vendor_name]]-core-connector`.
+        - **version**: the same value set on `./mojaloop-[[fsp_vendor_name]]-core-connector/Chart.yaml` **version**.
+        - **repository**: replace from `mojaloop-simulator-core-connector` to `mojaloop-[[fsp_vendor_name]]-core-connector`.
+        - **condition**: replace from `mojaloop-simulator-core-connector` to `mojaloop-[[fsp_vendor_name]]-core-connector`.
 
     1. `./mojaloop-payment-manager/values.yaml`
-        - Find the block of code for `mojaloop-simulator-core-connector`, copy and paste it below the last core connector block and rename it to the new `mojaloop-[[fsp_name]]-core-connector`. If no new variable added no change is requested. If so, add the new variable and its value.
+        - Find the block of code for `mojaloop-simulator-core-connector`, copy and paste it below the last core connector block and rename it to the new `mojaloop-[[fsp_vendor_name]]-core-connector`. If no new variable added no change is requested. If so, add the new variable and its value.
         - **enabled**: set it to `false`.
 
     1. `./mojaloop-payment-manager/Chart.yaml`
@@ -160,28 +191,28 @@ Follow the below steps fits better the need:
 
 1. [Publish](#publishing-the-chart-changes) the chart changes.
 
-### Updating a core connector chart
+#### Updating a core connector chart
 
 If the need is only to update or fix a core connector chart, change the properties of the below files to correspond to the updated chart:
 
-1. `./mojaloop-[[fsp_name]]-core-connector/Chart.yaml`
+1. `./mojaloop-[[fsp_vendor_name]]-core-connector/Chart.yaml`
     - **appVersion:** Update the core connector release number to the requested one.
     - **version:** Bump the Chart version.
 
-1. `./mojaloop-[[fsp_name]]-core-connector/values.yaml`
+1. `./mojaloop-[[fsp_vendor_name]]-core-connector/values.yaml`
     - **image.tag:** Update the core connector release number to the requested one.
 
 1. `./mojaloop-payment-manager/Chart.yaml`
     - Bump the values for **appVersion** and **version**.
 
 1. `./mojaloop-payment-manager/requirements.yaml`
-    - Find the correspondent block of the core connector chart and update chart **version** for the updated number set for  `./mojaloop-[[fsp_name]]-core-connector/Chart.yaml` **version**.
+    - Find the correspondent block of the core connector chart and update chart **version** for the updated number set for  `./mojaloop-[[fsp_vendor_name]]-core-connector/Chart.yaml` **version**.
 
 1. Change any other file/properties requested.
 
 1. [Publish](#publishing-the-chart-changes) the chart changes.
 
-### Publishing the chart changes
+#### Publishing the chart changes
 
 With all the changes over PM4ML Heml Chart done:
 
@@ -192,14 +223,14 @@ With all the changes over PM4ML Heml Chart done:
 ![](img/chart_copy6.png)
 ![](img/chart_copy7.png)
 
-## GitLab Deployment
+### GitLab Deployment
 
 > **Prerequisites**
 >- Access to [GitLab project]() (check the proper one with the team).
 
 The PM4ML environments are deployed by GitLab pipelines. To be able to update and run it, check which is the proper GitLab project for the core connector is going to be updated.
 
-### Deploying a new PM4ML Helm Chart version
+#### Deploying a new PM4ML Helm Chart version
 
 1. Edit *k3s-sync-dir/.env* file and update the `pm4ml_helm_version` property with the requested PM4ML chart release number.
 ![](img/gitlab_chart1.png)
@@ -208,7 +239,7 @@ The PM4ML environments are deployed by GitLab pipelines. To be able to update an
 
 1. Run the `Install PM4MLs` pipeline job or ask for.
 
-### Deploying a new Core Connector image version
+#### Deploying a new Core Connector image version
 
 1. Edit *k3s-sync-dir/.env* file and update the `pm4ml_helm_version` property with the requested PM4ML chart release number.
 
@@ -252,5 +283,6 @@ sudo wg
 sudo wg-quick down ./mmd_thitsaworks_qa_s3/wireguard.clients/client10.conf
 sudo wg
 ```
+
 ## Notes
 For version update, please follow the (Semver)[https://semver.org/#semantic-versioning-200] pattern.

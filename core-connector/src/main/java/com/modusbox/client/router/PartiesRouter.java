@@ -71,13 +71,13 @@ public class PartiesRouter extends RouteBuilder {
 				.setHeader("Content-Type", constant("application/json"))
 				.setHeader("Accept", constant("application/json"))
 				.setHeader(Exchange.HTTP_METHOD, constant("GET"))
-				.setProperty("authHeader", simple("${properties:easy.mambu.username}:${properties:easy.mambu.password}"))
+				.setProperty("authHeader", simple("${properties:dfsp.username}:${properties:dfsp.password}"))
 				.process(encodeAuthHeader)
 				.to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
 																	"'Calling Mambu API, getLoanById', " +
 																	"'Tracking the request', 'Track the response', " +
-																	"'Request sent to, GET https://{{easy.mambu.host}}/loans/${header.idValueTrimmed}')")
-				.toD("https://{{easy.mambu.host}}/loans/${header.idValueTrimmed}")
+																	"'Request sent to, GET https://{{dfsp.host}}/loans/${header.idValueTrimmed}')")
+				.toD("https://{{dfsp.host}}/loans/${header.idValueTrimmed}")
 
 				.unmarshal().json()
 				.to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
@@ -98,13 +98,13 @@ public class PartiesRouter extends RouteBuilder {
 				.setHeader("Content-Type", constant("application/json"))
 				.setHeader("Accept", constant("application/vnd.mambu.v2+json"))
 				.setHeader(Exchange.HTTP_METHOD, constant("GET"))
-				.setProperty("authHeader", simple("${properties:easy.mambu.username}:${properties:easy.mambu.password}"))
+				.setProperty("authHeader", simple("${properties:dfsp.username}:${properties:dfsp.password}"))
 				.process(encodeAuthHeader)
 				.to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
 																	"'Calling Mambu API, getLoanScheduleById', " +
 																	"'Tracking the request', 'Track the response', " +
-																	"'Request sent to, GET https://{{easy.mambu.host}}/loans/${header.idValueTrimmed}/schedule')")
-				.toD("https://{{easy.mambu.host}}/loans/${header.idValueTrimmed}/schedule")
+																	"'Request sent to, GET https://{{dfsp.host}}/loans/${header.idValueTrimmed}/schedule')")
+				.toD("https://{{dfsp.host}}/loans/${header.idValueTrimmed}/schedule")
 
 				.unmarshal().json()
 				.to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
@@ -124,14 +124,14 @@ public class PartiesRouter extends RouteBuilder {
 				.setHeader("Content-Type", constant("application/json"))
 				.setHeader("Accept", constant("application/json"))
 				.setHeader(Exchange.HTTP_METHOD, constant("GET"))
-				.setProperty("authHeader", simple("${properties:easy.mambu.username}:${properties:easy.mambu.password}"))
+				.setProperty("authHeader", simple("${properties:dfsp.username}:${properties:dfsp.password}"))
 				.process(encodeAuthHeader)
-//			.toD("{{easy.mambu.host}}/clients/" + simple("${exchangeProperty.getLoanByIdResponse?.get('accountHolderKey')}").getText())
+//			.toD("{{dfsp.host}}/clients/" + simple("${exchangeProperty.getLoanByIdResponse?.get('accountHolderKey')}").getText())
 				.to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
 						"'Calling Mambu API, getClientByLoanId', " +
 						"'Tracking the request', 'Track the response', " +
-						"'Request sent to, GET https://{{easy.mambu.host}}/clients/${exchangeProperty.getLoanByIdResponse?.get('accountHolderKey')}')")
-				.toD("https://{{easy.mambu.host}}/clients/${exchangeProperty.getLoanByIdResponse?.get('accountHolderKey')}")
+						"'Request sent to, GET https://{{dfsp.host}}/clients/${exchangeProperty.getLoanByIdResponse?.get('accountHolderKey')}')")
+				.toD("https://{{dfsp.host}}/clients/${exchangeProperty.getLoanByIdResponse?.get('accountHolderKey')}")
 				.unmarshal().json()
 				.to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
 						"'Response from Mambu API, getClientByLoanId: ${body}', " +
@@ -151,9 +151,9 @@ public class PartiesRouter extends RouteBuilder {
 			.setHeader("Content-Type", constant("application/json"))
 			.setHeader("Accept", constant("application/json"))
 			.setHeader(Exchange.HTTP_METHOD, constant("GET"))
-			.setProperty("authHeader", simple("${properties:easy.mambu.username}:${properties:easy.mambu.password}"))
+			.setProperty("authHeader", simple("${properties:dfsp.username}:${properties:dfsp.password}"))
 			.process(encodeAuthHeader)
-			.toD("https://{{easy.mambu.host}}/clients/${header.idValue}/loans")
+			.toD("https://{{dfsp.host}}/clients/${header.idValue}/loans")
 //			.bean("getLoansForClientResponse")
 		;
 		 */

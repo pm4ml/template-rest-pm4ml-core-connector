@@ -33,15 +33,15 @@ public class TransfersRouter extends RouteBuilder {
             .setHeader("Content-Type", constant("application/json"))
             .setHeader("Accept", constant("application/vnd.mambu.v2+json"))
             .setHeader(Exchange.HTTP_METHOD, constant("POST"))
-            .setProperty("authHeader", simple("${properties:easy.mambu.username}:${properties:easy.mambu.password}"))
+            .setProperty("authHeader", simple("${properties:dfsp.username}:${properties:dfsp.password}"))
             .process(encodeAuthHeader)
-//            .toD("{{easy.mambu.host}}/loans/"+ simple("${exchangeProperty.origPayload?.getTo().getIdValue()}").getText() +"/repayment-transactions")
-//            .toD("https://{{easy.mambu.host}}/loans/${exchangeProperty.origPayload?.getTo().getIdValue()}/repayment-transactions")
+//            .toD("{{dfsp.host}}/loans/"+ simple("${exchangeProperty.origPayload?.getTo().getIdValue()}").getText() +"/repayment-transactions")
+//            .toD("https://{{dfsp.host}}/loans/${exchangeProperty.origPayload?.getTo().getIdValue()}/repayment-transactions")
             .to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
                                                                 "'Calling Mambu API, getLoanRepaymentTransactions, " +
-                                                                "POST https://{{easy.mambu.host}}/loans/${header.idValueTrimmed}/repayment-transactions', " +
+                                                                "POST https://{{dfsp.host}}/loans/${header.idValueTrimmed}/repayment-transactions', " +
                                                                 "'Tracking the request', 'Track the response', 'Input Payload: ${body}')")
-            .toD("https://{{easy.mambu.host}}/loans/${header.idValueTrimmed}/repayment-transactions")
+            .toD("https://{{dfsp.host}}/loans/${header.idValueTrimmed}/repayment-transactions")
             .to("bean:customJsonMessage?method=logJsonMessage('info', ${header.X-CorrelationId}, " +
                                                                 "'Response from Mambu API, getLoanRepaymentTransactions: ${body}', " +
                                                                 "'Tracking the response', 'Verify the response', null)")

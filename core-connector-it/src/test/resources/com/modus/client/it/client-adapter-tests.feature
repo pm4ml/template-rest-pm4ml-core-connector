@@ -1,4 +1,4 @@
-Feature: Client Adapter Integration Tests
+Feature: Core Connector Integration Tests
 
 #  Background: The following is an example test suite intended to execute at build-time.
 

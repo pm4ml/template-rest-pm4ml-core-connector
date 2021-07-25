@@ -3,17 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>mambu-client-adapter</artifactId>
+        <artifactId>template-core-connector</artifactId>
         <groupId>com.modusbox</groupId>
-        <version>1.1.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>client-adapter-interface</artifactId>
+    <artifactId>core-connector-interface</artifactId>
 
-    <name>Mambu client adapter :: Interface</name>
+    <name>Core Connector :: Interface</name>
     <description>
-        Interface Definitions for the Mambu scheme adapter API.
+        Interface Definitions for the template Core Connector API.
         Contains model objects and java interfaces, with no logic and minimal external dependencies.
     </description>
 

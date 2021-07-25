@@ -6,12 +6,12 @@
 
     <parent>
         <groupId>com.modusbox</groupId>
-        <artifactId>mambu-client-adapter</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
+        <artifactId>template-core-connector</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>client-adapter</artifactId>
-    <name>Mambu client adapter :: Parent</name>
+    <artifactId>core-connector</artifactId>
+    <name>Core Connector :: Main</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,13 +23,13 @@
 
 <!--        <dependency>-->
 <!--            <groupId>com.modus</groupId>-->
-<!--            <artifactId>client-adapter-soap-mock</artifactId>-->
+<!--            <artifactId>core-connector-soap-mock</artifactId>-->
 <!--            <version>1.0.0-SNAPSHOT</version>-->
 <!--        </dependency>-->
 
         <dependency>
             <groupId>com.modusbox</groupId>
-            <artifactId>client-adapter-interface</artifactId>
+            <artifactId>core-connector-interface</artifactId>
         </dependency>
 
         <dependency>

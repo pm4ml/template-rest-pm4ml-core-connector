@@ -1,3 +1,3 @@
 #!/bin/bash
 
-java -jar client-adapter/target/client-adapter-1.0.0-SNAPSHOT.jar
+java -jar core-connector/target/core-connector-1.0.0-SNAPSHOT.jar
