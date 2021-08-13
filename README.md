@@ -17,36 +17,86 @@ On copy this template project, rename the project name in following places:
 
 ## Local development
 
-To generate the Java Rest DSL router and Model files (in parent pom): 
+Each core connector repo should have its own README instructions how to run the application following the template:
+
+># {{dfsp}}-pm4ml-core-connector
+>
+>Most of the details and instructions about development and deployment are in 
+>the main [template project](https://github.com/pm4ml/template-rest-pm4ml-core-connector) README.
+>Only additional or different topics are specified below.
+>
+>### Overwrite application properties
+>
+>To run application and run the Maven build and specify the required system variables.
+>```sh
+>mvn clean install
+>```
+>```
+>java \
+>-Dml-conn.outbound.host="http://localhost:4001" \
+>-Ddfsp.host="https://dfsp/api" \
+>-Ddfsp.username="user" \
+>-Ddfsp.password="pass" \
+>-Ddfsp.tenant-id="id" \
+>-Ddfsp.channel-id="channelId" \
+>-Ddfsp.api-key="apiKey" \
+>-jar ./core-connector/target/core-connector.jar
+>```
+>To run application as Docker image, run the docker build from the project root folder and then docker run specifying the required environments variables.
+>```
+> docker build -t core-connector:latest .
+>```
+>```
+>docker run --rm \
+>-e MLCONN_OUTBOUND_ENDPOINT="http://localhost:4001" \
+>-e DFSP_HOST="https://dfsp/api" \
+>-e DFSP_USERNAME="user" \
+>-e DFSP_PASSWORD="P\@ss0rd" \
+>-e DFSP_AUTH_TENANT_ID="id" \
+>-e DFSP_AUTH_CHANNEL_ID="channelId" \
+>-e DFSP_AUTH_API_KEY="apiKey" \
+>-p 3003:3003 core-connector:latest
+>```
+>**NOTE:** keep the values in double quotes (") and scape any special character (\\@).
+
+**PS:** would be good keep the main instructions **only** here at template README to avoid its deprecation and to 
+spread a lot of instructions pieces across all the core connector repos. 
+
+As a general purpose:     
+1. As a Java Maven project, run the Maven command to generate the Java JAR file. It will compile the Rest DSL routers and models files. 
 ```sh
 mvn clean install
 ```
-
-To build the project: 
+2. Run the Java application. Specify the required system properties values.
 ```sh
-mvn clean package
-```
-
-To run the Java application, first run the Maven build and then Java jarfile:
-```sh
-$ java -jar ./core-connector/target/core-connector-{{version}}.jar
+java \
+-Dml-conn.outbound.host="http://localhost:4001" \
+-Ddfsp.host="https://dfsp/api" \
+-Ddfsp.username="user" \
+-Ddfsp.password="pass" \
+-Ddfsp.tenant-id="id" \
+-Ddfsp.channel-id="channelId" \
+-Ddfsp.api-key="apiKey" \
+-jar ./core-connector/target/core-connector-{{version}}.jar
 ```
 
 Or to run the Java application from Intellij IDE, add the configuration for `Run/Debug`.
 > TODO:   
-> add new topic how to run application from Intellij  
-> add new topic how to debug application from Intellij  
-> add new topic to cover patterns followed for the Core Connector development (Apache Camel, Datasonnet, Logging, etc...)
+> add new instructions how to run application from Intellij  
+> add new instructions how to debug application from Intellij  
+> add new instructions to cover patterns followed for the Core Connector development (Apache Camel, Datasonnet, Logging, etc...)
 
 ### Overwrite application properties
+> TODO: add details about application.yaml 
+
 **NOTE:** Each Core Connector project has its own set of credentials to be declared at runtime. So please check the repo has the additional information on this regard. 
-
 :warning: **IMPORTANT:** don't commit the `application.yaml` containing sensitive information. :warning:
-
 To run Java application and set custom system property will enable to overwrite values from `application.yaml`.
 ```sh
 $ java -Dml-conn.outbound.host=http://simulator:4001 -jar ./core-connector/core-connector-{{version}}.jar
 ```
+### OpenAPI Spec update
+> TODO: add instructions how to update api.yaml
 
 ### Run Mojaloop Simulator
 To enable backend connection test, run `mojaloop-simulator-backend` before run connector.
