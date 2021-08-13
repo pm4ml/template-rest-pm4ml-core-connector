@@ -10,6 +10,7 @@ Template project for Mojaloop connector for a core banking system.
 - [Spring Boot](https://spring.io/projects/spring-boot)
 - [Swagger](https://swagger.io/)
 - [OpenAPI Generator Maven Plugin](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin)
+- [Prometheus JVM Client](https://github.com/prometheus/client_java)
 
 On copy this template project, rename the project name in following places:
 >TODO: add places where project name must be renamed
@@ -32,14 +33,15 @@ $ java -jar ./core-connector/target/core-connector-{{version}}.jar
 ```
 
 Or to run the Java application from Intellij IDE, add the configuration for `Run/Debug`.
-> TODO: add steps/screenshots to run application from Intellij
+> TODO: 
+>   add new topic how to run application from Intellij
+>   add new topic how to debug application from Intellij
+>   add new topic to cover patterns followed for the Core Connector development (Apache Camel, Datasonnet, Logging, etc...)
 
-> TODO: add new topic to cover patterns followed for the Core Connector development (Apache Camel, Datasonnet, Logging, etc...)
-> 
 ### Overwrite application properties
 **NOTE:** Each Core Connector project has its own set of credentials to be declared at runtime. So please check the repo has the additional information on this regard. 
 
-:warning: **IMPORTANT:** please don't commit the `application.yaml` with hard coded DFSP credentials. :warning:
+:warning: **IMPORTANT:** don't commit the `application.yaml` containing sensitive information. :warning:
 
 To run Java application and set custom system property will enable to overwrite values from `application.yaml`.
 ```sh
@@ -53,6 +55,9 @@ $ docker run --rm -p 3000:3000 mojaloop-simulator-backend:latest
 ```
 
 ### Docker Image
+
+> TODO: describe the Dockerfile variables usage  
+
 To build a new Docker image based on Dockerfile.
 ```sh
 $ docker build -t mojaloop-core-connector:latest .
@@ -72,6 +77,53 @@ To run the Integration Tests (run mvn clean install under core-connector folder 
 ```sh
 mvn -P docker-it clean install
 ```
+
+### Prometheus local client
+To enable testing Prometheus client implementation in local environment, follow the below steps.
+
+#### Prometheus Docker
+1. Create a folder for Prometheus Docker volume
+```shell script
+$ mkdir -p /docker/prometheus
+```
+
+2. Under created folder, create a `prometheus.yml` configuration file with below content.
+```shell script
+global:
+  scrape_interval:  10s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 10s # By default, evaluate rules every 15 seconds.
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+  
+  # metrics_path defaults to '/metrics'
+  #    scheme defaults to 'http'.
+    static_configs:
+    - targets: ['localhost:7001'] # Might be the local IP  
+```
+
+3. Start Docker container binding configuration file.
+```shell script
+docker run -d -p9090:9090 --name prometheus -v /path/to/file/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
+```
+**NOTE:** Running above command once it is possible do `docker stop prometheus` to disable service and `docker start prometheus` to enable it again.
+Rather than that add `--rm` flag to destroy Docker container whenever it is stopped.
+
+4. Once Docker is running, access Prometheus by browser in [localhost:9090](localhost:9090).
+   Check configurations is like expected in [/config](localhost:9090/config) and [/targets](localhost:9090/targets).
+
+5. In *Graph* page, Expression field, add the metric key expected to monitor according set for application client and press Execute.
+
+**NOTE:** The list of metric keys can be found `metrics_path` set under `scrape_configs` of `prometheus.yml` file (Ex: [localhost:7001/metrics](localhost:7001/metrics)).
+
+#### Prometheus Java Client
+
+To enable Prometheus metrics it is following steps and samples from [prometheus/client_java](https://github.com/prometheus/client_java).
+The types of metrics enabled are _Counter_ and _Histogram_ and the default port set for exporter is 7001,
+but it can be changed in `application.yml` property `server.metrics.port`.
 
 ## Deployment
 

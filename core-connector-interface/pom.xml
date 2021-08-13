@@ -13,7 +13,7 @@
 
     <name>Core Connector :: Interface</name>
     <description>
-        Interface Definitions for the template Core Connector API.
+        Interface Definitions for the Core Connector API.
         Contains model objects and java interfaces, with no logic and minimal external dependencies.
     </description>
 
@@ -51,7 +51,7 @@
                 </executions>
 
                 <!-- BASE configuration that should meet most of the use-cases. -->
-                <!-- Need to add <inputSpec>, <apiPackage>, and <modelPackage>   -->
+                <!-- Need to add <inputSpec>, <apiPackage>, and <modelPackage>  -->
                 <configuration>
                     <inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
                     <apiPackage>com.modusbox.client.api</apiPackage>

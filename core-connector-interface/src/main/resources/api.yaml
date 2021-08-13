@@ -12,6 +12,43 @@ info:
 
 
 paths:
+
+  /health:
+    get:
+      description: >
+        The HTTP request `GET /health` is used to check if application is up and running.
+      operationId: getHealth
+      tags:
+        - Health
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /loanDisbursementToWallet:
+    post:
+      summary: mifos loan disbursment
+      description: >
+        mifos loan disbursment.
+      operationId: postOriginalDisbursement
+      tags:
+        - loandisbursement
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loanDisbursementToMobileWallet'
+      responses:
+        200:
+          $ref: '#/components/responses/transferSuccess'
+        500:
+          $ref: '#/components/responses/transferServerError'
+        504:
+          $ref: '#/components/responses/transferTimeout'
+
   #Outbound API (Payer DFSP → Payment Manager → Mojaloop Switch)
   /sendmoney:
     post:
@@ -32,7 +69,7 @@ paths:
         If the configuration variables `AUTO_ACCEPT_PARTY` and `AUTO_ACCEPT_QUOTES` are both set to `"true"`, this method will block until all three transfer stages are complete.
         Upon completion, it will return the entire set of transfer details received during the operation.
         Combinations of settings for `AUTO_ACCEPT...` configuration variables allow the Payment Manager user to decide which mode of operation best suits their use cases. i.e., the Payment Manager can be configured to "break" the three-stage transfer at these points in order to execute backend logic such as party verification, quoted fees assessments, etc.
-      operationId: postSendmoney
+      operationId: postSendMoney
       tags:
         - Sendmoney
       requestBody:
@@ -59,7 +96,7 @@ paths:
         The HTTP request `PUT /sendmoney/{transferId}` is used by the Payer DFSP to continue a transfer initiated via the `POST /sendmoney` method that has halted after party lookup and/or quotation stage.
         The request body should contain either the "acceptParty" or "acceptQuote" property set to `true` as required to continue the transfer.
         See the description of the `POST /sendmoney` HTTP method for more information on modes of transfer.
-      operationId: putSendmoneyById
+      operationId: putSendMoneyByTransferId
       tags:
         - Sendmoney
       requestBody:
@@ -151,10 +188,72 @@ paths:
           $ref: '#/components/responses/400'
         500:
           $ref: '#/components/responses/500'
-
+  /transfers/{transferId}:
+    put:
+      summary: Provides a notification about the success/failure of a specific transfer
+      description: The HTTP request `PUT /transfers/{transferId}` is sent to the Payee DFSP, and it is used to notify the Payee DFSP about the final state of a transfer, to indicate whether the transfer has been committed or aborted in the Switch.
+      operationId: putTransfers
+      tags:
+        - Transfers
+      parameters:
+        - $ref: '#/components/parameters/transferId'
+      requestBody:
+        description: An incoming notification for a fulfilled transfer
+        content:
+          application/json:
+            schema:
+              #$ref: '#/components/schemas/putTransferRequestInbound'
+              $ref: '#/components/schemas/fulfilNotification'
+      responses:
+        200:
+          description: The notification was accepted
+        500:
+          $ref: '#/components/responses/500'
 
 components:
   schemas:
+
+    loanDisbursementToMobileWallet:
+      title: Loan disbursement to wallet
+      type: object
+      description: Loan disbursement to wallet information construct.
+      properties:
+        officeId:
+          type: string
+        clientId:
+          type: string
+        resourceId:
+          type: string
+        loanId:
+          type: string
+        changes:
+          $ref: '#/components/schemas/changes'
+      required:
+        - loanId
+        - changes
+
+    changes:
+      title: Changes on loan disbursement
+      type: object
+      properties:
+        accountNumber:
+          type: string
+        bankNumber:
+          type: string
+        status:
+          type: object
+        locale:
+          type: string
+        dateFormat:
+          type: string
+        actualDisbursementDate:
+          type: string
+      required:
+        - accountNumber
+        - bankNumber
+
+    inBody:
+      type: object
     amountType:
       type: string
       enum:
@@ -429,6 +528,82 @@ components:
           description: Number of Extension elements
       required:
         - extension
+
+    fulfilNotification:
+      title: TransfersIDPatchResponse
+      type: object
+      description: PUT /transfers/{transferId} object
+      properties:
+        transferId:
+          $ref: '#/components/schemas/transferId'
+        direction:
+          type: string
+          enum:
+            - INBOUND
+        quoteRequest:
+          type: object
+          properties:
+            headers:
+              type: object
+            body:
+              type: object
+        quoteResponse:
+          type: object
+          properties:
+            headers:
+              type: object
+            body:
+              type: object
+        prepare:
+          type: object
+          properties:
+            headers:
+              type: object
+            body:
+              type: object
+        fulfil:
+          type: object
+          properties:
+            headers:
+              type: object
+            body:
+              type: object
+        quote:
+          type: object
+          properties:
+            request:
+              type: object
+            internalRequest:
+              type: object
+            response:
+              type: object
+            mojaloopResponse:
+              type: object
+            fulfilment:
+              type: string
+        currentState:
+          $ref: '#/components/schemas/transferStatus'
+        lastError:
+          $ref: '#/components/schemas/transferError'
+        initiatedTimestamp:
+          $ref: '#/components/schemas/timestamp'
+        finalNotification:
+          type: object
+          properties:
+            completedTimestamp:
+              $ref: '#/components/schemas/timestamp'
+              description: Time and date when the transaction was completed.
+              example: "2020-05-19T08:38:08.699-04:00"
+            transferState:
+              $ref: '#/components/schemas/transferState'
+              description: State of the transfer.
+              example: COMMITTED
+            extensionList:
+              $ref: '#/components/schemas/extensionList'
+              description: Optional extension, specific to deployment.
+          required:
+            - completedTimestamp
+            - transferState
 
     geoCode:
       type: object
@@ -722,6 +897,9 @@ components:
         geoCode:
           $ref: '#/components/schemas/geoCode'
           description: Longitude and Latitude of the Payee. Can be used to detect fraud.
+        extensionList:
+          $ref: '#/components/schemas/extensionList'
+          description: Optional extension, specific to deployment.
 
     timestamp:
       type: string
@@ -742,8 +920,15 @@ components:
     transferContinuationAccept:
       type: object
       properties:
-        isAccept:
+        acceptQuote:
           type: boolean
+          enum:
+            - true
+            - false
+        acceptParty:
+          type: boolean
+          enum:
+            - true
 
     transferError:
       type: object
@@ -830,6 +1015,9 @@ components:
         idValue:
           type: string
           description: The identifier string used to identify the sender.
+        fspId:
+          type: string
+          description: The identifier string used to identify the FSP.
         displayName:
           type: string
           description: Display name of the sender, if known.
@@ -883,6 +1071,533 @@ components:
           $ref: '#/components/schemas/extensionList'
         transferRequestExtensions:
           $ref: '#/components/schemas/extensionList'
+
+    internalQuoteResponse:
+      type: object
+      properties:
+        quoteId:
+          type: string
+
+        transactionId:
+          type: string
+
+        transferAmount:
+          type: string
+
+        transferAmountCurrency:
+          type: string
+
+        payeeFspFeeAmount:
+          type: string
+
+        payeeFspFeeAmountCurrency:
+          type: string
+
+        payeeFspCommissionAmount:
+          type: string
+
+        payeeFspCommissionAmountCurrency:
+          type: string
+
+        expiration:
+          type: string
+
+    putTransferRequestInbound:
+      type: object
+      properties:
+        transferId:
+          type: string
+
+        direction:
+          type: string
+
+        quoteRequest:
+          type: object
+          properties:
+            headers:
+              type: object
+              properties:
+                content-type:
+                  type: string
+
+                date:
+                  type: string
+
+                fspiop-source:
+                  type: string
+
+                fspiop-destination:
+                  type: string
+
+                authorization:
+                  type: string
+
+                accept:
+                  type: string
+
+                content-length:
+                  type: integer
+
+                host:
+                  type: string
+
+                connection:
+                  type: string
+
+
+
+
+            body:
+              type: object
+              properties:
+                quoteId:
+                  type: string
+
+                transactionId:
+                  type: string
+
+                amountType:
+                  type: string
+
+                amount:
+                  type: object
+                  properties:
+                    currency:
+                      type: string
+
+                    amount:
+                      type: string
+
+
+
+
+                expiration:
+                  type: string
+
+                payer:
+                  type: object
+                  properties:
+                    partyIdInfo:
+                      type: object
+                      properties:
+                        partyIdType:
+                          type: string
+
+                        partyIdentifier:
+                          type: string
+
+                        fspId:
+                          type: string
+
+
+
+
+                    name:
+                      type: string
+
+
+
+
+                payee:
+                  type: object
+                  properties:
+                    partyIdInfo:
+                      type: object
+                      properties:
+                        partyIdType:
+                          type: string
+
+                        partyIdentifier:
+                          type: string
+
+                        fspId:
+                          type: string
+
+                    personalInfo:
+                      type: object
+                      properties:
+                        complexName:
+                          type: object
+                          properties:
+                            firstName:
+                              type: string
+
+                            middleName:
+                              type: string
+
+                            lastName:
+                              type: string
+
+                        dateOfBirth:
+                          type: string
+
+
+
+                transactionType:
+                  type: object
+                  properties:
+                    scenario:
+                      type: string
+
+                    initiator:
+                      type: string
+
+                    initiatorType:
+                      type: string
+
+                note:
+                  type: string
+
+
+
+
+        currentState:
+          type: string
+
+        initiatedTimestamp:
+          type: string
+
+        quote:
+          type: object
+          properties:
+            request:
+              type: object
+              properties:
+                quoteId:
+                  type: string
+
+                transactionId:
+                  type: string
+
+                amountType:
+                  type: string
+
+                amount:
+                  type: object
+                  properties:
+                    currency:
+                      type: string
+
+                    amount:
+                      type: string
+
+                expiration:
+                  type: string
+
+                payer:
+                  type: object
+                  properties:
+                    partyIdInfo:
+                      type: object
+                      properties:
+                        partyIdType:
+                          type: string
+
+                        partyIdentifier:
+                          type: string
+
+                        fspId:
+                          type: string
+
+                    name:
+                      type: string
+
+
+
+                payee:
+                  type: object
+                  properties:
+                    partyIdInfo:
+                      type: object
+                      properties:
+                        partyIdType:
+                          type: string
+
+                        partyIdentifier:
+                          type: string
+
+                        fspId:
+                          type: string
+
+                    personalInfo:
+                      type: object
+                      properties:
+                        complexName:
+                          type: object
+                          properties:
+                            firstName:
+                              type: string
+
+                            middleName:
+                              type: string
+
+                            lastName:
+                              type: string
+
+                        dateOfBirth:
+                          type: string
+
+
+
+
+                transactionType:
+                  type: object
+                  properties:
+                    scenario:
+                      type: string
+
+                    initiator:
+                      type: string
+
+                    initiatorType:
+                      type: string
+
+                note:
+                  type: string
+
+            internalRequest:
+              type: object
+              properties:
+                quoteId:
+                  type: string
+
+                transactionId:
+                  type: string
+
+                to:
+                  type: object
+                  properties:
+                    idType:
+                      type: string
+
+                    idValue:
+                      type: string
+
+                    fspId:
+                      type: string
+
+                    dateOfBirth:
+                      type: string
+
+                    firstName:
+                      type: string
+
+                    middleName:
+                      type: string
+
+                    lastName:
+                      type: string
+
+                from:
+                  type: object
+                  properties:
+                    idType:
+                      type: string
+
+                    idValue:
+                      type: string
+
+                    fspId:
+                      type: string
+
+                    displayName:
+                      type: string
+
+                amountType:
+                  type: string
+
+                amount:
+                  type: string
+
+                currency:
+                  type: string
+
+                transactionType:
+                  type: string
+
+                initiator:
+                  type: string
+
+                initiatorType:
+                  type: string
+
+                note:
+                  type: string
+
+                expiration:
+                  type: string
+
+            response:
+              $ref: '#/components/schemas/internalQuoteResponse'
+
+
+            mojaloopResponse:
+              type: object
+              properties:
+                transferAmount:
+                  type: object
+                  properties:
+                    amount:
+                      type: string
+
+                    currency:
+                      type: string
+
+                expiration:
+                  type: string
+
+                ilpPacket:
+                  type: string
+
+                condition:
+                  type: string
+
+                payeeFspFee:
+                  type: object
+                  properties:
+                    amount:
+                      type: string
+
+                    currency:
+                      type: string
+
+                payeeFspCommission:
+                  type: object
+                  properties:
+                    amount:
+                      type: string
+
+                    currency:
+                      type: string
+
+            fulfilment:
+              type: string
+
+        quoteResponse:
+          type: object
+          properties:
+            headers:
+              type: object
+              properties:
+                content-type:
+                  type: string
+
+                date:
+                  type: string
+
+                fspiop-source:
+                  type: string
+
+                fspiop-destination:
+                  type: string
+
+                Authorization:
+                  type: string
+
+                content-length:
+                  type: integer
+
+            body:
+              type: string
+
+        prepare:
+          type: object
+          properties:
+            body:
+              type: object
+              properties:
+                transferId:
+                  type: string
+
+                payeeFsp:
+                  type: string
+
+                payerFsp:
+                  type: string
+
+                amount:
+                  type: object
+                  properties:
+                    currency:
+                      type: string
+
+                    amount:
+                      type: string
+
+                ilpPacket:
+                  type: string
+
+                condition:
+                  type: string
+
+                expiration:
+                  type: string
+
+            headers:
+              type: object
+              properties:
+                content-type:
+                  type: string
+
+                date:
+                  type: string
+
+                fspiop-source:
+                  type: string
+
+                fspiop-destination:
+                  type: string
+
+                authorization:
+                  type: string
+
+                accept:
+                  type: string
+
+                content-length:
+                  type: integer
+
+                host:
+                  type: string
+
+                connection:
+                  type: string
+
+        fulfil:
+          type: object
+          properties:
+            headers:
+              type: object
+              properties:
+                content-type:
+                  type: string
+
+                date:
+                  type: string
+
+                fspiop-source:
+                  type: string
+
+                fspiop-destination:
+                  type: string
+
+                Authorization:
+                  type: string
+
+                content-length:
+                  type: integer
+
+            body:
+              type: string
+
+        finalNotification:
+          type: object
+          properties:
+            completedTimestamp:
+              type: string
+
+            transferState:
+              type: string
 
     transferRequestInbound:
       type: object
@@ -965,6 +1680,16 @@ components:
             Object representing the last error to occur during a transfer process. This may be a Mojaloop API error returned from another entity in the scheme
             or an object representing other types of error e.g. exceptions that may occur inside the Mojaloop Connector.
           $ref: '#/components/schemas/transferError'
+
+    transferState:
+      type: string
+      enum:
+        - COMMITTED
+        - ABORTED
+      description: >
+        Below are the allowed values for the enumeration
+        - COMMITTED The transfer has been committed in the Switch. The Payee DFSP responds to the `COMMITTED` state with an HTTP 200 message, and then marks the transfer as completed. in its internal records.
+        - ABORTED The transfer has been aborted in the Switch. The Payee DFSP responds to the `ABORTED` state with an HTTP 200 message, and then aborts the transfer in its internal records.
 
     transferResponseInbound:
       type: object

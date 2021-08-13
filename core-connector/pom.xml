@@ -13,25 +13,11 @@
     <artifactId>core-connector</artifactId>
     <name>Core Connector :: Main</name>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <camel.version>3.1.0</camel.version>
-		<java.version>1.8</java.version>
-    </properties>
-
     <dependencies>
-
-<!--        <dependency>-->
-<!--            <groupId>com.modus</groupId>-->
-<!--            <artifactId>core-connector-soap-mock</artifactId>-->
-<!--            <version>1.0.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>com.modusbox</groupId>
             <artifactId>core-connector-interface</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-spring-boot-starter</artifactId>
@@ -43,42 +29,28 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-core</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-jetty</artifactId>
             <version>${camel.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-http</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-openapi-java</artifactId>
             <version>${camel.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-bean-validator</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.modus.camel.datasonnet</groupId>
-            <artifactId>camel-datasonnet</artifactId>
-            <version>1.0.4</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/camel-datasonnet-1.0.4.jar</systemPath>
-        </dependency>
-        
+        </dependency>       
 		<dependency>
 		  <groupId>org.apache.camel</groupId>
 		  <artifactId>camel-cxf</artifactId>
@@ -88,30 +60,37 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxrs</artifactId>
             <version>3.3.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-http-jetty</artifactId>
-            <version>3.3.6</version>
-        </dependency>
-		
+        </dependency>		
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-jackson</artifactId>
 			<version>${camel.version}</version>
 		</dependency>
-
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-gson</artifactId>
             <version>${camel.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-datasonnet</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.datasonnet</groupId>
+            <artifactId>datasonnet-mapper</artifactId>
+            <version>${datasonnet.version}</version>
+        </dependency>        
 		<!-- Below needed to compile auto generated model classes. -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http-jetty</artifactId>
+            <version>3.3.6</version>
+        </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>
-
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
@@ -140,26 +119,19 @@
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web-services</artifactId>
         </dependency>
-
         <dependency>
             <groupId>io.github.classgraph</groupId>
             <artifactId>classgraph</artifactId>
             <version>4.8.52</version>
         </dependency>
         <dependency>
-            <groupId>com.datasonnet</groupId>
-            <artifactId>datasonnet-mapper</artifactId>
-            <version>1.0.4</version>
-        </dependency>
-        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.4</version>
+            <version>2.7</version>
         </dependency>
         <dependency>
             <groupId>com.modus.log4j2.layout</groupId>
@@ -174,11 +146,11 @@
             <version>2.13.2</version>
         </dependency>
         <dependency>
-            <groupId>com.modus.adapter.exception</groupId>
-            <artifactId>cbs-adapters-exception-handling</artifactId>
+            <groupId>com.modus.pm4ml.core.connectors.common</groupId>
+            <artifactId>core-connectors-camel-common</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/cbs-adapters-exception-handling-1.0.0-SNAPSHOT.jar</systemPath>
+            <systemPath>${basedir}/lib/core-connectors-camel-common-1.0.0-SNAPSHOT.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
@@ -186,11 +158,37 @@
             <version>20190722</version>
         </dependency>
 
+        <!-- Prometheus -->
+        <!-- The client -->
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient</artifactId>
+            <version>${prometheus-client.version}</version>
+        </dependency>
+        <!-- Hotspot JVM metrics-->
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_hotspot</artifactId>
+            <version>${prometheus-client.version}</version>
+        </dependency>
+        <!-- Exposition HTTPServer-->
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_httpserver</artifactId>
+            <version>${prometheus-client.version}</version>
+        </dependency>
+        <!-- Pushgateway exposition-->
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_pushgateway</artifactId>
+            <version>${prometheus-client.version}</version>
+        </dependency>
+        <!-- Prometheus -->
+
     </dependencies>
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -211,36 +209,14 @@
                 <version>${camel.version}</version>
                 <configuration>
                     <!-- <specificationUri>${project.basedir}/src/spec/api.yaml</specificationUri> -->
-                    <className>ClientAdapterAPI</className>
+                    <className>CoreConnectorAPI</className>
                     <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
                     <packageName>com.modusbox.client.router</packageName>
                     <modelOutput>${project.basedir}</modelOutput>
                     <modelPackage>com.modusbox.client.model</modelPackage>
                 </configuration>
             </plugin>
-            
-<!--			<plugin>-->
-<!--			  <groupId>org.apache.cxf</groupId>-->
-<!--			  <artifactId>cxf-codegen-plugin</artifactId>-->
-<!--			  <version>3.2.4</version>-->
-<!--			  <executions>-->
-<!--			    <execution>-->
-<!--			      <id>generate-sources</id>-->
-<!--			      <phase>generate-sources</phase>-->
-<!--			      <configuration>-->
-<!--			        <wsdlOptions>-->
-<!--			          <wsdlOption>-->
-<!--			            <wsdl>src/main/resources/wsdl/mockT24.wsdl</wsdl>-->
-<!--			          </wsdlOption>-->
-<!--			        </wsdlOptions>-->
-<!--			      </configuration>-->
-<!--			      <goals>-->
-<!--			        <goal>wsdl2java</goal>-->
-<!--			      </goals>-->
-<!--			    </execution>-->
-<!--			  </executions>-->
-<!--			</plugin>-->
-            
+
         </plugins>
     </build>
 

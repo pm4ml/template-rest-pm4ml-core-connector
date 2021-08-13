@@ -4,21 +4,27 @@ spring:
 
 server:
   port: 9091
+  metrics:
+    port: 7001
   api:
     listen:
       host: 0.0.0.0
-      port: 3002
+      port: 3003
+
 camel:
   component: jetty
-
   springboot:
     main-run-controller: true
-    name: easy-core-connector
+    name: template-core-connector
     stream-caching-enabled: true
 
-### IMPORTANT: the below properties are here for development reference purpose
-### for the cluster usage (Helm Chart) it are being set through system variable
-### (java -Ddfsp.host=... -Ddfsp.username=... -jar core-connector.jar) into Dockerfile
+### IMPORTANT: the purpose below properties are here is ONLY for development guidance
+###
+### DON'T LEAVE ANY SENSITIVE INFORMATION HERE
+###
+### any property value SHOULD be set as a system variable (java -Ddfsp.host=... -Ddfsp.username=... -jar core-connector.jar)
+###
+### find more options at Dockerfile and in case any new property remember to keep it up to date
 
 ### properties for DFSP connection
 #dfsp:
@@ -26,8 +32,22 @@ camel:
 #  username: user
 #  password: pass
 #  name: DFSP CO. LTD.
+#  scope: scope
+#  client-id: id
+#  client-secret: secret
+#  grant-type: type
+#  is-password-encrypted: false
+#  tenant-id: id
+#  channel-id: 123
+#  api-key: key
+#  api-version: v1
+#  agent:
+#    mobile-number: "1234"
+#    mpin: "1234"
+#    tpin: "1234"
+#  product-id: "1234"
 
 ### properties for Mojaloop Connector connection
 #ml-conn:
 #  outbound:
-#    host:  http://localhost:4001
+#    host:  http://localhost:3004

@@ -2,7 +2,7 @@
 <Configuration status="WARN">
     <Appenders>
         <Console name="JsonConsole">
-            <CustomJsonLayout applicationName="easy-core-connector"/>
+            <CustomJsonLayout applicationName="template-core-connector"/>
         </Console>
         <Console name="Console">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>

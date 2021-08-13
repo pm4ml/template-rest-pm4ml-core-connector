@@ -1,0 +1,25 @@
+local origPayload = cml.exchangeProperty('origPayload');
+
+{
+  "type":"CITIZEN",
+  "api_caller":"GnG",
+  "transaction_refno": origPayload.transferId,
+  "agent_account": cml.properties('dfsp.username'),
+  "deposit_account":  origPayload.quote.internalRequest.to.idValue,
+  "token": cml.exchangeProperty('authToken'),
+  "amount": origPayload.prepare.body.amount.amount,
+  "additional_fields":[
+    {
+      "key":"casherId",
+      "value":"001"
+    },
+    {
+      "key":"storeCode",
+      "value":"000"
+    },
+    {
+      "key":"province",
+      "value":"yangon"
+    }
+  ]
+}

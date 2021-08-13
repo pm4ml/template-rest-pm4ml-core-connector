@@ -148,7 +148,7 @@
                             </build>
                             <run>
                                 <ports>
-                                    <port>application-host-port:3002</port>
+                                    <port>application-host-port:3003</port>
                                 </ports>
                                 <network>
                                     <mode>custom</mode>
@@ -194,7 +194,7 @@
                                 <property>
                                     <name>application-base-url</name>
                                     <!--suppress MavenModelInspection -->
-                                    <value>http://localhost:3002</value>
+                                    <value>http://localhost:3003</value>
                                 </property>
                             </systemProperties>
                         </configuration>
